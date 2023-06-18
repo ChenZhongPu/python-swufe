@@ -1,0 +1,541 @@
+\documentclass[aspectratio=169, 14pt]{beamer}
+\usepackage{xeCJK}
+\usepackage{graphicx}
+\usepackage[ruled, lined, linesnumbered, commentsnumbered]{algorithm2e}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+\usepackage{tikz}
+\usetikzlibrary{matrix,shapes,backgrounds,arrows,calc,shadows.blur,fit,positioning}
+\usetikzlibrary {arrows.meta}
+\usepackage{minted}
+\usepackage{fontawesome5}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,
+	urlcolor=cyan,
+}
+\urlstyle{same}
+\usetheme{metropolis}
+\metroset{block=fill}
+\usecolortheme{default}
+\definecolor{darkmidnightblue}{rgb}{0.0, 0.2, 0.4}
+\definecolor{LightGray}{gray}{0.9}
+
+
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Programming in Python] %optional
+{Python程序设计}
+
+\subtitle{Week1: Introduction}
+
+\author[CHEN Zhongpu] % (optional)
+{CHEN Zhongpu}
+
+\institute[] % (optional)
+{
+	School of Computing and Artificial Intelligence \\
+	\href{mailto:zpchen@swufe.edu.cn}{zpchen@swufe.edu.cn}
+}
+
+\date[] % (optional)
+{SWUFE, Fall 2023}
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the 
+%beginning of each section and highlights the current section:
+
+% \AtBeginSection[]
+% {
+%   \begin{frame}
+%     \frametitle{Table of Contents}
+%     \tableofcontents[currentsection]
+%   \end{frame}
+% }
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+% \begin{frame}
+% 	\Large $$Data\ Structure + Algorithm = Program$$
+% \end{frame}
+
+{
+	\usebackgroundtemplate{
+		\tikz[overlay, remember picture]
+		\node[opacity=0.4, at=(current page.south east), anchor=south east, yshift=2cm,] {
+			\includegraphics[height=0.6\paperheight]{cover}};
+	}
+	\begin{frame}
+		\section{\textcolor{darkmidnightblue}{1. 课程介绍}}
+	\end{frame}
+
+}
+
+\begin{frame}
+	\frametitle{关于我：陈中普}
+
+	\begin{block}{\faIcon{book} 研究方向}
+		时空数据库，大数据分析，AI驱动的数据库系统
+	\end{block}
+
+	\begin{block}{\faIcon{building} 办公室}
+		格致楼3-122
+	\end{block}
+
+	\begin{block}{\faIcon{home} 主页}
+		\href{https://zhongpu.info}{https://zhongpu.info}
+	\end{block}
+
+\end{frame}
+\begin{frame}
+	\frametitle{关于课程}
+	\begin{block}{Not Only Python}
+		本课程面向\underline{没有编程基础}的学生，将围绕着Python语言，讨论程序设计的\alert{术}与\alert{道}。
+	\end{block}
+	\begin{tikzpicture}
+		\tikzstyle{colorn} = [draw, ellipse, ultra thick, fill=blue!20,
+		text width=4cm, text centered, font=\bfseries];
+		\node[colorn](knowledge) {KNOWLEDGE OF CONCEPTS};
+		\node[right=of knowledge, colorn](skill) {PROGRAMMING SKILL};
+		\node[above right=of knowledge, colorn, xshift=-1.5cm](solving) {PROBLEM SOLVING};
+		\draw[ultra thick] (knowledge) to (skill);
+		\draw[ultra thick] (knowledge) to (solving);
+		\draw[ultra thick] (skill) to (solving);
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+	\frametitle{关于Python}
+	\begin{block}{Python官网}
+		Python is a programming language that lets you work quickly and integrate systems more effectively.
+	\end{block}
+	\pause
+	Python被广泛应用于\alert{科学计算}、\alert{Web开发}、\alert{系统运维}、\alert{人工智能}等领域。尽管很流行，但是\alert{trade-off}总是存在的，Python也有很明显的缺点。
+\end{frame}
+
+\begin{frame}
+	\begin{columns}
+		\column{0.49\textwidth}
+		\begin{tikzpicture}[scale=.8]
+			\begin{axis}[
+					xlabel=\href{https://www.tiobe.com/tiobe-index/}{Tiobe} 2023年编程语言,
+					symbolic y coords={Python, C, C++, Java, C\#},
+					major y tick style = transparent,
+					xmajorgrids=true,
+					bar width=10pt,
+					enlarge y limits=.2,
+					xbar,
+					xmin=0, xmax=18, xtick distance=3
+				]
+				\addplot
+				coordinates {
+						(16.36,Python)
+						(16.26,C)
+						(12.91,C++)
+						(12.21,Java)
+						(5.73,C\#)};
+				8\end{axis}
+		\end{tikzpicture}
+		\column{0.49\textwidth}
+		\begin{tikzpicture}[scale=.75]
+			\begin{axis}[
+					xlabel=\href{https://survey.stackoverflow.co/2023/}{StackOverFlow} 2023年语言,
+					symbolic y coords={JavaScript, HTML\slash{CSS}, Python, SQL, TypeScript},
+					major y tick style = transparent,
+					xmajorgrids=true,
+					bar width=10pt,
+					enlarge y limits=.2,
+					xbar,
+					xmin=30, xmax=70, xtick distance=10
+				]
+				\addplot [fill=red] coordinates {
+						(63.61,JavaScript)
+						(52.97,HTML\slash{CSS})
+						(49.28,Python)
+						(48.66,SQL)
+						(38.87,TypeScript)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{columns}
+	\pause
+	论文\href{https://greenlab.di.uminho.pt/wp-content/uploads/2017/09/paperSLE.pdf}{Energy Efficiency across Programming Languages}表明，在运行时间方面，Python在主流编程语言排名\alert{倒数第二}。
+\end{frame}
+
+\begin{frame}
+	\frametitle{预备知识、考核标准}
+	\begin{columns}
+		\column{.44\textwidth}
+		原则上几乎不需要预备知识，掌握\alert{阅读文档}（尤其是英文文档）和\alert{安装软件}的能力即可。
+		\url{https://docs.python.org/3/index.html}
+		\column{.56\textwidth}
+		\begin{tikzpicture}
+			\colorlet{good}{green!75!black}
+			\colorlet{bad}{red}
+			\colorlet{neutral}{black!60}
+			\colorlet{none}{blue!75!black}
+
+			\node[align=center,text width=3cm]{考核};
+
+			\begin{scope}[line width=4mm,rotate=270]
+				\draw[good]          (30:2cm) arc (30:282:2cm);
+				\draw[neutral]       (-78:2cm) arc (-78:30:2cm);
+				\newcount\mycount
+				\foreach \angle in {0,72,...,3599}
+					{
+						\mycount=\angle\relax
+						\divide\mycount by 10\relax
+						\draw[black!15,thick] (\the\mycount:18mm) -- (\the\mycount:22mm);
+					}
+
+				\draw (0:2.2cm) node[below] {平时作业 (30\%)};
+				\draw (65:2.2cm) node[right] {期末考试 (70\%)};
+			\end{scope}
+		\end{tikzpicture}
+
+		\begin{tikzpicture}
+			\node[fill=red!80, text=white, blur shadow={shadow xshift=-0.5ex},
+				text width=14em,anchor=south west,rounded corners, ]
+			{严禁抄袭！多提问！多练习！
+			};
+		\end{tikzpicture}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{课程资源}
+	参考资料：
+	\begin{itemize}
+		\item Guttag, John. \alert{Introduction to Computation and Programming Using Python: With Application to Understanding Data} Second Edition. MIT Press, 2016. ISBN: 9780262529624.
+	\end{itemize}
+
+	搜索工具：
+	\begin{itemize}
+		\item StackOverFlow、Google
+		\item ChatGPT（\url{https://poe.com}、\url{https://chat.forefront.ai}、\url{https://chat.vercel.ai}）
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{编程工具}
+	本课程推荐使用\alert{Python 3.10+}。
+
+	IDE或编辑器（要求掌握）：
+	\begin{itemize}
+		\item PyCharm （适合专业、大型项目）
+		\item VSCode （适合轻量级、小型项目）
+		\item Jupyter（适合演示、学习）
+	\end{itemize}
+
+	代码AI助手（不要求掌握）：
+	\begin{itemize}
+		\item \url{https://codeium.com}
+		\item GitHub CoPilot
+	\end{itemize}
+\end{frame}
+
+{
+\usebackgroundtemplate{
+	\tikz[overlay, remember picture]
+	\node[opacity=0.4, at=(current page.south east), anchor=south east, yshift=2cm,] {
+		\includegraphics[height=0.6\paperheight]{cover}};
+}
+\begin{frame}
+	\section{\textcolor{darkmidnightblue}{2. 什么是计算？}}
+\end{frame}
+}
+
+\begin{frame}
+	\frametitle{计算、知识与编程}
+
+	\begin{exampleblock}{思考}
+		计算机最重要的两个功能是什么？
+	\end{exampleblock}
+	\begin{figure}
+		\includegraphics[height=.6\paperheight]{week1/Von_Neumann_Architecture}
+	\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+	尽管现代计算机的功能强大（TB级别的存储和GHz级别的CPU），但是计算机只能执行程序员告诉它的任务。换言之，我们需要将\alert{知识注入计算机}，而知识的载体就是编程语言。
+
+	\pause
+	知识的分类：
+
+	\begin{itemize}
+		\item \alert{声明式知识}（declarative knowledge）：WHAT
+		\item \alert{过程式知识}（imperative knowledge）：HOW
+	\end{itemize}
+
+	\begin{tikzpicture}[slot/.style={minimum size=1.2cm,rectangle, fill=blue!30},slot1/.style={minimum size=1.2cm,rectangle, fill=red!30},>=Stealth]
+		\matrix [nodes=draw, row sep=0.2cm, column sep=1cm] (one) {
+			\node[slot]{算法}; & \node[slot]{控制流}; & \node[slot]{Fixed-program}; & \node[slot]{Stored-program}; \\
+		};
+		\matrix [nodes=draw, row sep=0.2cm, column sep=1cm, below=of one, yshift=1cm] {
+			\node[slot1]{通用图灵机}; &
+			\node[slot1]{图灵完备};    \\
+		};
+
+	\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{编程语言与自然语言}
+	Each programming language has a set of primitive constructs, a syntax, and a semantics.
+
+	\begin{tabular}{l l p{2in}}
+		\toprule
+		     & \textbf{自然语言}                     & \textbf{编程语言}                                       \\
+		\midrule
+		基本构造 & 词汇(cat)                           & 基本数据(\texttt{"cat"}、\texttt{1})和简单操作符({\texttt{+}}) \\
+		语法   & I love cats. \alert{I cats love}. & \texttt{1 + 2}, \alert{\texttt{1 2 +}}              \\
+		语义   & \alert{I loves cats}.             & \texttt{1 + "cat"}                                  \\
+		\bottomrule
+	\end{tabular}
+
+	严格来说，上面的「语义」是\alert{静态语义}；任何不符合预期的行为都可以认为是语义错误。
+\end{frame}
+
+{
+\usebackgroundtemplate{
+	\tikz[overlay, remember picture]
+	\node[opacity=0.4, at=(current page.south east), anchor=south east, yshift=2cm,] {
+		\includegraphics[height=0.6\paperheight]{cover}};
+}
+\begin{frame}
+	\section{\textcolor{darkmidnightblue}{3. Python程序}}
+\end{frame}
+}
+
+\begin{frame}[fragile]
+	\frametitle{基本概念}
+	\begin{exampleblock}{程序}
+		程序（program）由一系列定义（definition）和命令（command）组成。
+	\end{exampleblock}
+
+	\begin{verbatim}
+print("Hello, world!")
+  \end{verbatim}
+
+	程序所保存的文件被称为\alert{源代码}（source code），在Python中也称\alert{脚本}（script），最后交给Python\alert{解释器}（interpreter）执行，也可以通过Shell执行。
+\end{frame}
+
+\begin{frame}
+	\frametitle{对象}
+	\begin{exampleblock}{对象}
+		程序是用来操作数据\alert{对象}（data objects）。对象由\alert{类型}（type）和值（value）构成。不同类型的对象能够执行的操作是不同的。
+	\end{exampleblock}
+
+	\pause
+
+	\begin{tikzpicture}
+		\node[fill=red!80, text=white, blur shadow={shadow xshift=-0.5ex},
+			text width=24em,anchor=south west,rounded corners, ]
+		{Python中一切皆对象！换言之，均属于某个类（clsss）。
+		};
+	\end{tikzpicture}
+
+	对象可大致分为两类：
+	\begin{itemize}
+		\item \alert{标量}（scalar）：不可再分的对象，如整数、浮点数、布尔值，属于\alert{基本数据类型}。
+		\item 非标量：可再分的对象，如字符串、列表、字典。
+	\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{基本数据类型}
+	\begin{tabular}{l l}
+		\hline
+		\texttt{int}      & 表示整数（integer），比如\texttt{42}                    \\
+		\hline
+		\texttt{float}    & 表示浮点数（floating-point number），比如\texttt{3.14}   \\
+		\hline
+		\texttt{bool}     & 表示布尔值（boolean），取值为\texttt{True}和\texttt{False} \\
+		\hline
+		\texttt{NoneType} & 表示空值（None），只有一个取值\texttt{None}                 \\
+		\hline
+	\end{tabular}
+
+	\texttt{str}是最简单的\alert{非标量}类型之一，表示字符串（string），比如\texttt{"Hello, world!"}。
+
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{类型相关操作}
+
+	\begin{columns}
+		\column{.49\textwidth}
+		\alert{查看类型}：
+		\begin{verbatim}
+>>> type(42)
+>>> type(3.14)
+\end{verbatim}
+
+		\alert{检查类型}：
+		\begin{verbatim}
+>>> isinstance(42, int)
+>>> isinstance(3.14, int)
+>>> isinstance(True, int)
+\end{verbatim}
+		\column{.49\textwidth}
+		\alert{转换类型}：
+		\begin{verbatim}
+>>> int(3.14)
+>>> float(42)
+>>> float("3.14")
+>>> str(3.14)
+\end{verbatim}
+	\end{columns}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{表达式}
+	\begin{exampleblock}{表达式}
+		对象和操作符（operator）的组合称为\alert{表达式}（expression），表达式的值也是对象。
+	\end{exampleblock}
+	算术操作符有：\texttt{+、-、*、/、\%、**}；算术表达式的基本格式是：
+	$$<\mbox{对象}> <\mbox{操作符}> <\mbox{对象}>$$
+
+	其中，\texttt{/}的结果总是浮点数；\texttt{\%}的计算不同编程语言不一样；\texttt{**}在其他编程语言中很少见。
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{思考}
+	下面表达式的结果是什么？
+	\begin{verbatim}
+>>> 1 + 2 * 3
+>>> (1 + 2) * 3
+>>> +1
+>>> ++++1
+>>> -1
+>>> ----1
+>>> 1 ++++++ 1
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{变量}
+	\begin{exampleblock}{变量}
+		值可以通过赋值（assignment）绑定到一个变量（variable）；变量是一个\alert{标识符}（identifier），用来引用值。
+	\end{exampleblock}
+
+
+	\begin{tikzpicture}
+		\node[fill=red!80, text=white, blur shadow={shadow xshift=-0.5ex},
+			text width=25em,anchor=south west,rounded corners, ]
+		{
+			In Python, a variable is just a name, nothing more. };
+	\end{tikzpicture}
+	\begin{verbatim}
+>>> a = 1
+>>> a
+>>> a = 2
+>>> a = a + 1
+>>> b = a
+>>> c = d = 42 
+  \end{verbatim}
+\end{frame}
+
+\begin{frame}
+	前4个是强制，后2个是建议。
+	\begin{tikzpicture}
+		\node[fill=red!80, text=white, blur shadow={shadow xshift=-0.5ex},
+			text width=28em,anchor=south west,rounded corners, ]
+		{
+			\begin{enumerate}
+				\item \textcolor{white}{Variable names must start with a letter or underscore not a number.}
+				\item \textcolor{white}{Variable names can only contain letters, numbers, and underscores. No other characters are allowed.}
+				\item \textcolor{white}{Variable names are case-sensitive.}
+				\item \textcolor{white}{ Avoid using reserved keywords as variable names. }
+				\item \textcolor{white}{Variable names should be descriptive and meaningful.}
+				\item \textcolor{white}{Use lowercase letters for variable names, separate words with underscores.}
+			\end{enumerate}
+		};
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{练习}
+	考虑下面的Python代码，请定义一个变量来表示圆的面积：
+
+	\begin{minted}[bgcolor=LightGray, baselinestretch=1]{python}
+pi = 3.14159
+radius = 2.2
+# compute the area of an circle
+\end{minted}
+
+	\pause
+	已知下面的代码不合法，你有什么结论？
+
+	\begin{minted}[bgcolor=LightGray, baselinestretch=1]{python}
+a = (b = 42)
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{分支}
+	\alert{分支}（branching）是程序中最基本的结构之一，也称为选择结构（selection）。
+
+	\begin{minted}[bgcolor=LightGray, baselinestretch=1]{python}
+age = 45
+if age > 40:
+   salary = 20000
+else:
+   salary = 18000
+print(salary)
+\end{minted}
+
+	在上面程序的基础上，进一步掌握比较和逻辑操作符号。
+\end{frame}
+
+\begin{frame}
+	\frametitle{Tab还是Space}
+
+	通过上面程序，可以看到\alert{缩进}（indentation）在Python中的重要性。
+
+	\begin{tikzpicture}
+		\node[fill=red!80, text=white, blur shadow={shadow xshift=-0.5ex},
+			text width=28em,anchor=south west,rounded corners, ]
+		{
+			In Python, the choice between using tabs or spaces for indentation is a matter of personal preference. However, it is highly recommended to be consistent in your choice throughout your codebase.
+
+			\href{https://peps.python.org/pep-0008/}{PEP 8}, the official style guide for Python code, recommends using spaces for indentation and suggests using 4 spaces per level of indentation. This is the widely accepted convention in the Python community.
+		};
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+	\section{\textcolor{darkmidnightblue}{Conclusion}}
+	\begin{enumerate}
+		\item 什么是计算
+		\item Python的特点
+		\item 基本数据类型，表达式，变量，分支
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{本周任务}
+	\begin{itemize}
+		\item 安装Python 3.10+
+		\item 安装Visual Studio Code，并安装Python插件
+		\item 通过Shell或VSCode练习Python
+	\end{itemize}
+\end{frame}
+\end{document}

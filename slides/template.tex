@@ -1,0 +1,96 @@
+\documentclass[aspectratio=169, 14pt]{beamer}
+\usepackage{xeCJK}
+\usepackage{graphicx}
+\usepackage{transparent}
+\usepackage[ruled, lined, linesnumbered, commentsnumbered]{algorithm2e}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{matrix,backgrounds,arrows,calc,shadows.blur,fit,positioning}
+\usetikzlibrary {arrows.meta}
+\usepackage{minted}
+\usepackage{fontawesome5}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,
+	urlcolor=cyan,
+}
+\urlstyle{same}
+\usetheme{metropolis}
+\metroset{block=fill}
+\usecolortheme{default}
+\definecolor{darkmidnightblue}{rgb}{0.0, 0.2, 0.4}
+\definecolor{LightGray}{gray}{0.9}
+
+
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Programming in Python] %optional
+{Python程序设计}
+
+\subtitle{XXX}
+
+\author[CHEN Zhongpu] % (optional)
+{CHEN Zhongpu}
+
+\institute[] % (optional)
+{
+	School of Computing and Artificial Intelligence \\
+	\href{mailto:zpchen@swufe.edu.cn}{zpchen@swufe.edu.cn}
+}
+
+\date[] % (optional)
+{SWUFE, Fall 2023}
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the 
+%beginning of each section and highlights the current section:
+
+% \AtBeginSection[]
+% {
+%   \begin{frame}
+%     \frametitle{Table of Contents}
+%     \tableofcontents[currentsection]
+%   \end{frame}
+% }
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+\begin{frame}
+	\Large $$Data\ Structure + Algorithm = Program$$
+\end{frame}
+
+{
+% \usebackgroundtemplate{\transparent{0.3}{\begin{picture}
+%     \includegraphics[height=0.7\paperheight]{cover}
+% \end{picture}    
+% }}
+\usebackgroundtemplate{
+	\tikz[overlay, remember picture]
+	\node[opacity=0.4, at=(current page.south east), anchor=south east, yshift=2cm,] {
+		\includegraphics[height=0.6\paperheight]{cover}};
+}
+\begin{frame}
+	\section{\textcolor{darkmidnightblue}{xxx}}
+\end{frame}
+
+}
+
+\begin{frame}
+	\frametitle{xxxx}
+\end{frame}
+
+\end{document}
