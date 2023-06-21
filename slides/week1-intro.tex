@@ -123,16 +123,23 @@
 	\begin{block}{Python官网}
 		Python is a programming language that lets you work quickly and integrate systems more effectively.
 	\end{block}
-	\pause
-	Python被广泛应用于\alert{科学计算}、\alert{Web开发}、\alert{系统运维}、\alert{人工智能}等领域。尽管很流行，但是\alert{trade-off}总是存在的，Python也有很明显的缺点。
+
+	\begin{figure}
+		\center
+		\includegraphics[height=.45\paperheight]{week1/Timeline.pdf}
+	\end{figure}
 \end{frame}
 
 \begin{frame}
+	\begin{exampleblock}{ Pros }
+		Python被广泛应用于\alert{科学计算}、\alert{Web开发}、\alert{系统运维}、\alert{人工智能}等领域，是目前最流行的编程语言之一。
+	\end{exampleblock}
+
 	\begin{columns}
 		\column{0.49\textwidth}
-		\begin{tikzpicture}[scale=.8]
+		\begin{tikzpicture}[scale=.75]
 			\begin{axis}[
-					xlabel=\href{https://www.tiobe.com/tiobe-index/}{Tiobe} 2023年编程语言,
+					xlabel=\href{https://www.tiobe.com/tiobe-index/}{Tiobe} 2023年编程语言排名,
 					symbolic y coords={Python, C, C++, Java, C\#},
 					major y tick style = transparent,
 					xmajorgrids=true,
@@ -148,12 +155,12 @@
 						(12.91,C++)
 						(12.21,Java)
 						(5.73,C\#)};
-				8\end{axis}
+			\end{axis}
 		\end{tikzpicture}
 		\column{0.49\textwidth}
 		\begin{tikzpicture}[scale=.75]
 			\begin{axis}[
-					xlabel=\href{https://survey.stackoverflow.co/2023/}{StackOverFlow} 2023年语言,
+					xlabel=\href{https://survey.stackoverflow.co/2023/}{StackOverFlow} 2023年语言排名,
 					symbolic y coords={JavaScript, HTML\slash{CSS}, Python, SQL, TypeScript},
 					major y tick style = transparent,
 					xmajorgrids=true,
@@ -171,8 +178,34 @@
 			\end{axis}
 		\end{tikzpicture}
 	\end{columns}
-	\pause
-	论文\href{https://greenlab.di.uminho.pt/wp-content/uploads/2017/09/paperSLE.pdf}{Energy Efficiency across Programming Languages}表明，在运行时间方面，Python在主流编程语言排名\alert{倒数第二}。
+
+\end{frame}
+
+\begin{frame}
+	\begin{exampleblock}{Cons}
+
+		但是\alert{trade-off}总是存在的，Python也有很明显的缺点。
+	\end{exampleblock}
+
+	\begin{columns}
+		\column{.3\textwidth}
+		\begin{tabular}{l c}
+			\hline
+			\textbf{Language} & \textbf{Time} \\
+			\hline
+			C                 & 1.00          \\
+			Rust              & 1.04          \\
+			C++               & 1.56          \\
+			Ada               & 1.85          \\
+			Java              & 1.89          \\
+			Go                & 2.83          \\
+			Python            & 71.90         \\
+			Lua               & 82.91         \\
+			\hline
+		\end{tabular}
+		\column{.7\textwidth}
+		论文\href{https://greenlab.di.uminho.pt/wp-content/uploads/2017/09/paperSLE.pdf}{Energy Efficiency across Programming Languages}表明，在运行时间方面，Python在主流编程语言排名\alert{倒数第二}。
+	\end{columns}
 \end{frame}
 
 \begin{frame}
@@ -219,7 +252,8 @@
 	\frametitle{课程资源}
 	参考资料：
 	\begin{itemize}
-		\item Guttag, John. \alert{Introduction to Computation and Programming Using Python: With Application to Understanding Data} Second Edition. MIT Press, 2016. ISBN: 9780262529624.
+		\item Guttag, John. \alert{Introduction to Computation and Programming Using Python: With Application to Understanding Data} Second Edition. MIT Press, 2016.
+		\item \href{https://github.com/ChenZhongPu/python-swufe}{课程代码及课件}
 	\end{itemize}
 
 	搜索工具：
@@ -535,7 +569,21 @@ print(salary)
 	\begin{itemize}
 		\item 安装Python 3.10+
 		\item 安装Visual Studio Code，并安装Python插件
-		\item 通过Shell或VSCode练习Python
+		\item 通过Python Shell或VSCode练习Python
+		\item 在Python Shell中输入\alert{import this}，并翻译显示的内容
 	\end{itemize}
+\end{frame}
+
+\begin{frame}{安装JupyterLab}
+	强力建议创建并启动\href{https://docs.python.org/3/tutorial/venv.html}{虚拟环境}后再安装第三方包。
+	\begin{block}{第0步}
+		配置国内的PIP镜像，如\href{https://mirrors.tuna.tsinghua.edu.cn/help/pypi/}{清华大学的镜像}。
+	\end{block}
+	\begin{block}{第1步：安装}
+		命令行输入：pip install jupyterlab
+	\end{block}
+	\begin{block}{第2步：启动}
+		命令行输入：jupyter lab
+	\end{block}
 \end{frame}
 \end{document}
