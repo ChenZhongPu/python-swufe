@@ -70,19 +70,13 @@
 \frame{\titlepage}
 
 {
-	% \usebackgroundtemplate{\transparent{0.3}{\begin{picture}
-	%     \includegraphics[height=0.7\paperheight]{cover}
-	% \end{picture}    
-	% }}
 	\usebackgroundtemplate{
 		\tikz[overlay, remember picture]
 		\node[opacity=0.4, at=(current page.south east), anchor=south east, yshift=2cm,] {
 			\includegraphics[height=0.6\paperheight]{cover}};
 	}
-	\begin{frame}
-		\section{\textcolor{darkmidnightblue}{xxx}}
-	\end{frame}
 
+	\section{\textcolor{darkmidnightblue}{xxx}}
 }
 
 \begin{frame}{xxx}

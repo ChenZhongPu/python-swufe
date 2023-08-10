@@ -93,7 +93,7 @@
 	\end{block}
 
 	\begin{block}{\faIcon{building} 办公室}
-		格致楼3-122
+		格致楼J-310
 	\end{block}
 
 	\begin{block}{\faIcon{home} 主页}
@@ -224,8 +224,8 @@
 			\node[align=center,text width=3cm]{考核};
 
 			\begin{scope}[line width=4mm,rotate=270]
-				\draw[good]          (30:2cm) arc (30:282:2cm);
-				\draw[neutral]       (-78:2cm) arc (-78:30:2cm);
+				\draw[good]          (30:2cm) arc (30:246:2cm);
+				\draw[neutral]       (-114:2cm) arc (-114:30:2cm);
 				\newcount\mycount
 				\foreach \angle in {0,72,...,3599}
 					{
@@ -234,8 +234,8 @@
 						\draw[black!15,thick] (\the\mycount:18mm) -- (\the\mycount:22mm);
 					}
 
-				\draw (0:2.2cm) node[below] {平时作业 (30\%)};
-				\draw (65:2.2cm) node[right] {期末考试 (70\%)};
+				\draw (0:2.2cm) node[below] {平时作业 (40\%)};
+				\draw (65:2.2cm) node[right] {期末考试 (60\%)};
 			\end{scope}
 		\end{tikzpicture}
 
@@ -252,17 +252,29 @@
 	\frametitle{课程资源}
 	参考资料：
 	\begin{itemize}
-		\item Guttag, John. \alert{Introduction to Computation and Programming Using Python: With Application to Understanding Data} Second Edition. MIT Press, 2016.
+		\item Eric Matthes. \alert{Python Crash Course}. Third Edition. 2022.
+		\item John Guttag. \alert{Introduction to Computation and Programming Using Python}. Second Edition. 2016.
 		\item \href{https://github.com/ChenZhongPu/python-swufe}{课程代码及课件}
 	\end{itemize}
 
-	搜索工具：
+	\begin{figure}
+		\includegraphics[height=.35\paperheight]{week1/python-crash-course-3rd-edition.jpg}
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}{搜索工具}
+
 	\begin{itemize}
 		\item StackOverFlow、Google
 		\item ChatGPT（\url{https://poe.com}、\url{https://chat.forefront.ai}、\url{https://chat.vercel.ai}）
 	\end{itemize}
-\end{frame}
 
+	\begin{quote}
+		获取知识的能力比知识本身更有价值。
+	\end{quote}
+
+\end{frame}
 \begin{frame}
 	\frametitle{编程工具}
 	本课程推荐使用\alert{Python 3.10+}。
@@ -314,16 +326,16 @@
 		\item \alert{过程式知识}（imperative knowledge）：HOW
 	\end{itemize}
 
-	\begin{tikzpicture}[slot/.style={minimum size=1.2cm,rectangle, fill=blue!30},slot1/.style={minimum size=1.2cm,rectangle, fill=red!30},>=Stealth]
-		\matrix [nodes=draw, row sep=0.2cm, column sep=1cm] (one) {
-			\node[slot]{算法}; & \node[slot]{控制流}; & \node[slot]{Fixed-program}; & \node[slot]{Stored-program}; \\
-		};
-		\matrix [nodes=draw, row sep=0.2cm, column sep=1cm, below=of one, yshift=1cm] {
-			\node[slot1]{通用图灵机}; &
-			\node[slot1]{图灵完备};    \\
-		};
-
-	\end{tikzpicture}
+	% \begin{tikzpicture}[slot/.style={minimum size=1.2cm,rectangle, fill=blue!30},slot1/.style={minimum size=1.2cm,rectangle, fill=red!30},>=Stealth]
+	% 	\matrix [nodes=draw, row sep=0.2cm, column sep=1cm] (one) {
+	% 		\node[slot]{算法}; & \node[slot]{控制流}; & \node[slot]{Fixed-program}; & \node[slot]{Stored-program}; \\
+	% 	};
+	% 	\matrix [nodes=draw, row sep=0.2cm, column sep=1cm, below=of one, yshift=1cm] {
+	% 		\node[slot1]{通用图灵机}; &
+	% 		\node[slot1]{图灵完备};    \\
+	% 	};
+	%
+	% \end{tikzpicture}
 
 \end{frame}
 
@@ -342,6 +354,33 @@
 	\end{tabular}
 
 	严格来说，上面的「语义」是\alert{静态语义}；任何不符合预期的行为都可以认为是语义错误。
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{从Hello World开始}
+	\begin{minted}[bgcolor=LightGray, baselinestretch=1]{python}
+print("Hello World!")
+  \end{minted}
+
+	\begin{minted}[bgcolor=LightGray, baselinestretch=1]{c}
+#include <stdio.h>
+#include <stdlib.h>
+int main(void) {
+  printf("Hello World!\n");
+  return EXIT_SUCCESS;
+}
+  \end{minted}
+
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{minted}[bgcolor=LightGray, baselinestretch=1]{java}
+public class Test {
+  public static void main(String[] args) {
+    System.out.println("Hello World!");
+  }
+}
+  \end{minted}
 \end{frame}
 
 {
@@ -447,7 +486,20 @@ print("Hello, world!")
 	算术操作符有：\texttt{+、-、*、/、\%、**}；算术表达式的基本格式是：
 	$$<\mbox{对象}> <\mbox{操作符}> <\mbox{对象}>$$
 
-	其中，\texttt{/}的结果总是浮点数；\texttt{\%}的计算不同编程语言不一样；\texttt{**}在其他编程语言中很少见。
+	其中，\texttt{/}的结果总是浮点数（整除需要使用\texttt{//}）；\texttt{\%}的计算不同编程语言不一样；\texttt{**}在其他编程语言中很少见。
+\end{frame}
+
+\begin{frame}[fragile]{除法和取余}
+	与其他编程语言相比，Python中的整除（又称floor division）和取余操作符有点特殊。
+	\begin{verbatim}
+>>> 5 / 2
+>>> 5 // 2
+>>> 5 / -2
+>>> 5 // -2
+>>> 5 % 2
+>>> 5 % -2
+>>> -5 % 2
+\end{verbatim}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -470,14 +522,16 @@ print("Hello, world!")
 		值可以通过赋值（assignment）绑定到一个变量（variable）；变量是一个\alert{标识符}（identifier），用来引用值。
 	\end{exampleblock}
 
-
-	\begin{tikzpicture}
-		\node[fill=red!80, text=white, blur shadow={shadow xshift=-0.5ex},
-			text width=25em,anchor=south west,rounded corners, ]
-		{
-			In Python, a variable is just a name, nothing more. };
-	\end{tikzpicture}
-	\begin{verbatim}
+	\begin{columns}
+		\column{.4\textwidth}
+		\begin{tikzpicture}
+			\node[fill=red!80, text=white, blur shadow={shadow xshift=-0.5ex},
+				text width=14em,anchor=south west,rounded corners, ]
+			{
+				In Python, a variable is just a name, nothing more. };
+		\end{tikzpicture}
+		\column{.3\textwidth}
+		\begin{verbatim}
 >>> a = 1
 >>> a
 >>> a = 2
@@ -485,6 +539,7 @@ print("Hello, world!")
 >>> b = a
 >>> c = d = 42 
   \end{verbatim}
+	\end{columns}
 \end{frame}
 
 \begin{frame}
@@ -506,7 +561,7 @@ print("Hello, world!")
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{练习}
+	\frametitle{练习与思考}
 	考虑下面的Python代码，请定义一个变量来表示圆的面积：
 
 	\begin{minted}[bgcolor=LightGray, baselinestretch=1]{python}
@@ -515,12 +570,6 @@ radius = 2.2
 # compute the area of an circle
 \end{minted}
 
-	\pause
-	已知下面的代码不合法，你有什么结论？
-
-	\begin{minted}[bgcolor=LightGray, baselinestretch=1]{python}
-a = (b = 42)
-\end{minted}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -555,6 +604,18 @@ print(salary)
 	\end{tikzpicture}
 \end{frame}
 
+\begin{frame}[fragile]{三元操作符}
+	请搜索资料，使用Python的三元（ternary）操作符实现下面的代码：
+
+	\begin{minted}[bgcolor=LightGray, baselinestretch=1]{python}
+age = 45
+if age > 40:
+   salary = 20000
+else:
+   salary = 18000
+\end{minted}
+\end{frame}
+
 \begin{frame}
 	\section{\textcolor{darkmidnightblue}{Conclusion}}
 	\begin{enumerate}
@@ -583,7 +644,7 @@ print(salary)
 		命令行输入：pip install jupyterlab
 	\end{block}
 	\begin{block}{第2步：启动}
-		命令行输入：jupyter lab
+		命令行输入：jupyter-lab
 	\end{block}
 \end{frame}
 \end{document}
