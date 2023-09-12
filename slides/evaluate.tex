@@ -1,0 +1,12 @@
+\documentclass[border=2pt]{standalone}
+\usepackage{xeCJK}
+\usepackage{wheelchart}
+\begin{document}
+\begin{tikzpicture}[every node/.style={font=\sffamily}]
+	\wheelchart [middle={\LARGE 考核},
+		wheel lines=white]
+	{40/red/\LARGE 平时练习 (40\%),
+		10/orange/\LARGE 参与度 (10\%),
+		50/green/\LARGE 期末考试 (50\%)}
+\end{tikzpicture}
+\end{document}

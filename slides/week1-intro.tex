@@ -215,34 +215,11 @@
 		原则上几乎不需要预备知识，掌握\alert{阅读文档}（尤其是英文文档）和\alert{安装软件}的能力即可。
 		\url{https://docs.python.org/3/index.html}
 		\column{.56\textwidth}
-		\begin{tikzpicture}
-			\colorlet{good}{green!75!black}
-			\colorlet{bad}{red}
-			\colorlet{neutral}{black!60}
-			\colorlet{none}{blue!75!black}
-
-			\node[align=center,text width=3cm]{考核};
-
-			\begin{scope}[line width=4mm,rotate=270]
-				\draw[good]          (30:2cm) arc (30:246:2cm);
-				\draw[neutral]       (-114:2cm) arc (-114:30:2cm);
-				\newcount\mycount
-				\foreach \angle in {0,72,...,3599}
-					{
-						\mycount=\angle\relax
-						\divide\mycount by 10\relax
-						\draw[black!15,thick] (\the\mycount:18mm) -- (\the\mycount:22mm);
-					}
-
-				\draw (0:2.2cm) node[below] {平时作业 (40\%)};
-				\draw (65:2.2cm) node[right] {期末考试 (60\%)};
-			\end{scope}
-		\end{tikzpicture}
-
+		\includegraphics[width=\textwidth]{evaluate.pdf}
 		\begin{tikzpicture}
 			\node[fill=red!80, text=white, blur shadow={shadow xshift=-0.5ex},
 				text width=14em,anchor=south west,rounded corners, ]
-			{严禁抄袭！多提问！多练习！
+			{严禁抄袭！多练习！
 			};
 		\end{tikzpicture}
 	\end{columns}
@@ -267,7 +244,7 @@
 
 	\begin{itemize}
 		\item StackOverFlow、Google
-		\item ChatGPT（\url{https://poe.com}、\url{https://chat.forefront.ai}、\url{https://chat.vercel.ai}）
+		\item ChatGPT（\url{https://poe.com}、\url{https://chat.vercel.ai}）
 	\end{itemize}
 
 	\begin{quote}
@@ -388,6 +365,16 @@ public class Test {
   }
 }
   \end{minted}
+\end{frame}
+
+\begin{frame}
+	\frametitle{几个案例}
+	\begin{itemize}
+		\item 获取股票价格
+		\item 自动下载图片
+		\item 生成二维码
+		\item 生成词云
+	\end{itemize}
 \end{frame}
 
 {
@@ -550,7 +537,7 @@ print("Hello, world!")
 \end{frame}
 
 \begin{frame}
-	前4个是强制，后2个是建议。
+	前3个是强制，后3个是建议。
 	\begin{tikzpicture}
 		\node[fill=red!80, text=white, blur shadow={shadow xshift=-0.5ex},
 			text width=28em,anchor=south west,rounded corners, ]
@@ -643,7 +630,7 @@ else:
 \end{frame}
 
 \begin{frame}{安装JupyterLab}
-	强力建议创建并启动\href{https://docs.python.org/3/tutorial/venv.html}{虚拟环境}后再安装第三方包。
+	强力建议创建并启动\href{https://docs.python.org/3/tutorial/venv.html}{虚拟环境}后再安装第三方包。\texttt{python -m venv ThePath}
 	\begin{block}{第0步}
 		配置国内的PIP镜像，如\href{https://mirrors.tuna.tsinghua.edu.cn/help/pypi/}{清华大学的镜像}。
 	\end{block}
