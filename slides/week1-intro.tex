@@ -44,7 +44,7 @@
 }
 
 \date[] % (optional)
-{SWUFE, Fall 2023}
+{SWUFE, Fall 2024}
 
 %End of title page configuration block
 %------------------------------------------------------------
@@ -89,7 +89,7 @@
 	\frametitle{关于我：陈中普}
 
 	\begin{block}{\faIcon{book} 研究方向}
-		时空数据库，大数据分析，AI驱动的数据库系统
+		时空数据库，大数据分析，向量数据库，大模型应用
 	\end{block}
 
 	\begin{block}{\faIcon{building} 办公室}
@@ -230,7 +230,6 @@
 	参考资料：
 	\begin{itemize}
 		\item Eric Matthes. \alert{Python Crash Course}. Third Edition. 2022.
-		\item John Guttag. \alert{Introduction to Computation and Programming Using Python}. Second Edition. 2016.
 		\item \href{https://github.com/ChenZhongPu/python-swufe}{课程代码及课件}
 	\end{itemize}
 
@@ -244,7 +243,7 @@
 
 	\begin{itemize}
 		\item StackOverFlow、Google
-		\item ChatGPT（\url{https://poe.com}、\url{https://chat.vercel.ai}）
+		\item ChatGPT, Claude
 	\end{itemize}
 
 	\begin{quote}
@@ -371,9 +370,9 @@ public class Test {
 	\frametitle{几个案例}
 	\begin{itemize}
 		\item 获取股票价格
-		\item 自动下载图片
 		\item 生成二维码
 		\item 生成词云
+		\item 聊天机器人
 	\end{itemize}
 \end{frame}
 
@@ -537,7 +536,7 @@ print("Hello, world!")
 \end{frame}
 
 \begin{frame}
-	前3个是强制，后3个是建议。
+	前4个是强制，后2个是建议。
 	\begin{tikzpicture}
 		\node[fill=red!80, text=white, blur shadow={shadow xshift=-0.5ex},
 			text width=28em,anchor=south west,rounded corners, ]
@@ -546,7 +545,7 @@ print("Hello, world!")
 				\item \textcolor{white}{Variable names must start with a letter or underscore not a number.}
 				\item \textcolor{white}{Variable names can only contain letters, numbers, and underscores. No other characters are allowed.}
 				\item \textcolor{white}{Variable names are case-sensitive.}
-				\item \textcolor{white}{ Avoid using reserved keywords as variable names. }
+				\item \textcolor{white}{ Avoid using \href{https://realpython.com/lessons/reserved-keywords/}{reserved keywords} as variable names. }
 				\item \textcolor{white}{Variable names should be descriptive and meaningful.}
 				\item \textcolor{white}{Use lowercase letters for variable names, separate words with underscores.}
 			\end{enumerate}
@@ -630,7 +629,7 @@ else:
 \end{frame}
 
 \begin{frame}{安装JupyterLab}
-	强力建议创建并启动\href{https://docs.python.org/3/tutorial/venv.html}{虚拟环境}后再安装第三方包。\texttt{python -m venv ThePath}
+	建议创建并启动\href{https://docs.python.org/3/tutorial/venv.html}{虚拟环境}后再安装第三方包。\texttt{python -m venv ThePath}
 	\begin{block}{第0步}
 		配置国内的PIP镜像，如\href{https://mirrors.tuna.tsinghua.edu.cn/help/pypi/}{清华大学的镜像}。
 	\end{block}
