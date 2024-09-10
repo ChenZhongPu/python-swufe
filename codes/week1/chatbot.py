@@ -1,3 +1,8 @@
+"""
+Please set the environment variable `OPENAI_API_KEY` to your OpenAI API key,
+and set the `OPENAI_BASE_URL` (optional) to the base URL for the OpenAI API.
+"""
+
 from openai import OpenAI
 
 

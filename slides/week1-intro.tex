@@ -325,11 +325,11 @@
 		\midrule
 		基本构造 & 词汇(cat)                           & 基本数据(\texttt{"cat"}、\texttt{1})和简单操作符({\texttt{+}}) \\
 		语法   & I love cats. \alert{I cats love}. & \texttt{1 + 2}, \alert{\texttt{1 2 +}}              \\
-		语义   & \alert{I loves cats}.             & \texttt{1 + "cat"}                                  \\
+		语义   & \alert{I loves cats}.             & \alert{1 + "cat"}                                   \\
 		\bottomrule
 	\end{tabular}
 
-	严格来说，上面的「语义」是\alert{静态语义}；任何不符合预期的行为都可以认为是语义错误。
+	% 严格来说，上面的「语义」是\alert{静态语义}；任何不符合预期的行为都可以认为是语义错误。
 \end{frame}
 
 \begin{frame}[fragile]
@@ -631,7 +631,7 @@ else:
 \begin{frame}{安装JupyterLab}
 	建议创建并启动\href{https://docs.python.org/3/tutorial/venv.html}{虚拟环境}后再安装第三方包。\texttt{python -m venv ThePath}
 	\begin{block}{第0步}
-		配置国内的PIP镜像，如\href{https://mirrors.tuna.tsinghua.edu.cn/help/pypi/}{清华大学的镜像}。
+		配置国内的PIP镜像，如\href{https://mirrors.tuna.tsinghua.edu.cn/help/pypi/}{清华大学}、\href{https://mirror.sjtu.edu.cn/docs/pypi/web/simple}{上海交通大学}。
 	\end{block}
 	\begin{block}{第1步：安装}
 		命令行输入：pip install jupyterlab
