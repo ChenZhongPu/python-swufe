@@ -44,7 +44,7 @@
 }
 
 \date[] % (optional)
-{SWUFE, Fall 2024}
+{SWUFE, Fall 2025}
 
 %End of title page configuration block
 %------------------------------------------------------------
@@ -81,6 +81,8 @@
 	}
 	\begin{frame}
 		\section{\textcolor{darkmidnightblue}{1. 课程介绍}}
+
+		\href{https://www.python.org/doc/essays/foreword/}{Python的由来}
 	\end{frame}
 
 }
@@ -89,7 +91,7 @@
 	\frametitle{关于我：陈中普}
 
 	\begin{block}{\faIcon{book} 研究方向}
-		时空数据库，大数据分析，向量数据库，大模型应用
+		数据库系统，AI4DB，大模型应用
 	\end{block}
 
 	\begin{block}{\faIcon{building} 办公室}
@@ -139,29 +141,29 @@
 		\column{0.49\textwidth}
 		\begin{tikzpicture}[scale=.75]
 			\begin{axis}[
-					xlabel=\href{https://www.tiobe.com/tiobe-index/}{Tiobe} 2023年编程语言排名,
+					xlabel=\href{https://www.tiobe.com/tiobe-index/}{Tiobe} 2025年10月编程语言排名,
 					symbolic y coords={Python, C, C++, Java, C\#},
 					major y tick style = transparent,
 					xmajorgrids=true,
 					bar width=10pt,
 					enlarge y limits=.2,
 					xbar,
-					xmin=0, xmax=18, xtick distance=3
+					xmin=0, xmax=30, xtick distance=3
 				]
 				\addplot
 				coordinates {
-						(16.36,Python)
-						(16.26,C)
-						(12.91,C++)
-						(12.21,Java)
-						(5.73,C\#)};
+						(24.45,Python)
+						(9.29,C)
+						(8.84,C++)
+						(8.35,Java)
+						(6.94,C\#)};
 			\end{axis}
 		\end{tikzpicture}
 		\column{0.49\textwidth}
 		\begin{tikzpicture}[scale=.75]
 			\begin{axis}[
-					xlabel=\href{https://survey.stackoverflow.co/2023/}{StackOverFlow} 2023年语言排名,
-					symbolic y coords={JavaScript, HTML\slash{CSS}, Python, SQL, TypeScript},
+					xlabel=\href{https://survey.stackoverflow.co/2025/}{StackOverFlow} 2025年语言排名,
+					symbolic y coords={JavaScript, HTML\slash{CSS}, Python, SQL, Bash\slash{Shell}},
 					major y tick style = transparent,
 					xmajorgrids=true,
 					bar width=10pt,
@@ -170,11 +172,11 @@
 					xmin=30, xmax=70, xtick distance=10
 				]
 				\addplot [fill=red] coordinates {
-						(63.61,JavaScript)
-						(52.97,HTML\slash{CSS})
-						(49.28,Python)
-						(48.66,SQL)
-						(38.87,TypeScript)};
+						(66,JavaScript)
+						(61.9,HTML\slash{CSS})
+						(58.6,SQL)
+						(57.9,Python)
+						(48.7,Bash\slash{Shell})};
 			\end{axis}
 		\end{tikzpicture}
 	\end{columns}
@@ -217,6 +219,9 @@
 		\end{tabular}
 		\column{.7\textwidth}
 		论文\href{https://greenlab.di.uminho.pt/wp-content/uploads/2017/09/paperSLE.pdf}{Energy Efficiency across Programming Languages}表明，在运行时间方面，Python在主流编程语言排名\alert{倒数第二}。
+
+		\href{https://www.reddit.com/r/ProgrammerHumor/comments/m3pf9h/there_is_only_one_king/}{This is Only One King}
+
 	\end{columns}
 \end{frame}
 
@@ -231,7 +236,7 @@
 		\begin{tikzpicture}
 			\node[fill=red!80, text=white, blur shadow={shadow xshift=-0.5ex},
 				text width=14em,anchor=south west,rounded corners, ]
-			{严禁抄袭！多练习！
+			{诚实面对自己！多练习！
 			};
 		\end{tikzpicture}
 	\end{columns}
@@ -255,7 +260,8 @@
 
 	\begin{itemize}
 		\item StackOverFlow、Google
-		\item ChatGPT, Claude
+		\item ChatGPT, Claude, Github Copilot
+		\item \texttt{help()}、\texttt{?}
 	\end{itemize}
 
 	\begin{quote}
@@ -263,21 +269,20 @@
 	\end{quote}
 
 \end{frame}
+
 \begin{frame}
 	\frametitle{编程工具}
-	本课程推荐使用\alert{Python 3.10+}。
-
-	IDE或编辑器（要求掌握）：
+	本课程推荐使用\alert{Python 3.10+}。IDE或编辑器（要求掌握）：
 	\begin{itemize}
-		\item PyCharm （适合专业、大型项目）
-		\item VSCode （适合轻量级、小型项目）
+		\item PyCharm （适合专业、大型项目）或 VSCode （适合轻量级、小型项目）
 		\item Jupyter（适合演示、学习）
+		\item Python虚拟环境
 	\end{itemize}
 
-	代码AI助手（不要求掌握）：
+	其他工具（不要求掌握）：
 	\begin{itemize}
-		\item \url{https://codeium.com}
-		\item GitHub CoPilot
+		\item uv
+		\item ruff
 	\end{itemize}
 \end{frame}
 
