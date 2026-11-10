@@ -1,0 +1,61 @@
+\documentclass{standalone}
+\usepackage{xeCJK}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{tikz} \usetikzlibrary{calc, arrows.meta, intersections, patterns, positioning, shapes.misc, fadings, through,decorations.pathreplacing}
+
+\definecolor{ColorOne}{named}{MidnightBlue}
+\definecolor{ColorTwo}{named}{Dandelion}
+\definecolor{ColorThree}{named}{Plum}
+
+\begin{document}
+
+\tikzstyle{descript} = [text = black,align=center, minimum height=1.8cm, align=center, outer sep=0pt,font = \footnotesize]
+\tikzstyle{activity} =[align=center,outer sep=1pt]
+
+\begin{tikzpicture}[very thick, black]
+	\small
+
+	%% Coordinates
+	\coordinate (O) at (0,0); % Origin
+	\coordinate (P0) at (2,0);
+	\coordinate (P1) at (4,0);
+	\coordinate (P2) at (8,0);
+	\coordinate (P3) at (12,0);
+	\coordinate (F) at (13,0); %End
+	\coordinate (E1) at (5,0); %Event
+	\coordinate (E2) at (0.5,0); %Event
+
+	%% Filled regions
+	\fill[color=ColorOne!20] rectangle (O) -- (P1) -- ($(P1)+(0,1)$) -- ($(O)+(0,1)$); % Studies
+	\fill[color=ColorTwo!20] rectangle (P1) -- (P2) -- ($(P2)+(0,1)$) -- ($(P1)+(0,1)$); % Work
+	\shade[left color=ColorThree, right color=white] rectangle (P2) -- (P3) -- ($(P3)+(0,1)$) -- ($(P2)+(0,1)$); % Current work
+
+	%% Text inside filled regions
+	\draw ($(P1)+(-2.5,0.5)$) node[activity,ColorOne] {Python 1};
+	\draw ($(P2)+(-2,0.5)$) node[activity,ColorTwo] {Python 2};
+	\draw ($(P3)+(-2,0.5)$)  node[activity, ColorThree] {Python 3};
+
+
+	%% Events
+	\draw[<-,thick,color=black] ($(P0)+(0,1)$) -- ($(P0)+(0,1.5)$) node [above=0pt,align=center,black] {90年代中期，\\Python开始走向大众视野};
+
+	\draw[<-,thick,color=black] ($(O) + (0, -0.5)$) -- ($(O)+(0,-1.5)$) node [below=2pt,align=center,black] {1991年，荷兰人Guido van Rossum\\发布Python 0.9};
+
+	\draw[<-,thick,color=black] ($(P2)+(0,1)$) -- ($(P2)+(0,1.5)$) node [above=0pt,align=center,black] {2008年，Python 3发布};
+
+	\draw[<-,thick,color=black] ($(P3) + (0, -0.5)$) -- ($(P3)+(0,-1.5)$) node [below=2pt,align=center,black] {2026年发布的Python 3.15\\是目前最新版本};
+
+
+	%% Arrow
+	\draw[->] (O) -- (F);
+	%% Ticks
+	\foreach \x in {0,2,...,12}
+	\draw(\x cm,3pt) -- (\x cm,-3pt);
+	%% Labels
+	\foreach \i \j in {0/1991,2/-,4/2000,6/-, 8/2008, 10/-, 12/2026}{
+			\draw (\i,0) node[below=3pt] {\j} ;
+		}
+
+\end{tikzpicture}
+
+\end{document}

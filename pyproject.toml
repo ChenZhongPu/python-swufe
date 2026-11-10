@@ -1,0 +1,17 @@
+[project]
+name = "python-programming"
+version = "0.1.0"
+description = "Python Programming in SWUFE"
+readme = "README.md"
+authors = [{ name = "CHEN zhongpu", email = "chenloveit@gmail.com" }]
+requires-python = ">=3.12"
+dependencies = [
+    "jupyterlab>=4.6.6",
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.4",
+    "qrcode>=8.2",
+    "requests>=2.34.2",
+]
+
+[tool.uv]
+package = false

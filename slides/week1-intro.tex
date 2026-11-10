@@ -11,6 +11,7 @@
 \usepackage{fontawesome5}
 \usepackage{booktabs}
 \usepackage{caption}
+\usepackage{ulem}
 \usepackage{hyperref}
 \hypersetup{
 	colorlinks=true,
@@ -44,7 +45,7 @@
 }
 
 \date[] % (optional)
-{SWUFE, Fall 2025}
+{SWUFE, Fall 2026}
 
 %End of title page configuration block
 %------------------------------------------------------------
@@ -110,7 +111,7 @@
 	\end{block}
 	\begin{tikzpicture}
 		\tikzstyle{colorn} = [draw, ellipse, ultra thick, fill=blue!20,
-		text width=4cm, text centered, font=\bfseries];
+			text width=4cm, text centered, font=\bfseries];
 		\node[colorn](knowledge) {KNOWLEDGE OF CONCEPTS};
 		\node[right=of knowledge, colorn](skill) {PROGRAMMING SKILL};
 		\node[above right=of knowledge, colorn, xshift=-1.5cm](solving) {PROBLEM SOLVING};
@@ -260,7 +261,7 @@
 
 	\begin{itemize}
 		\item StackOverFlow、Google
-		\item ChatGPT, Claude, Github Copilot
+		\item ChatGPT, Claude, DeepSeek
 		\item \texttt{help()}、\texttt{?}
 	\end{itemize}
 
@@ -272,29 +273,27 @@
 
 \begin{frame}
 	\frametitle{编程工具}
-	本课程推荐使用\alert{Python 3.10+}。IDE或编辑器（要求掌握）：
+	本课程推荐使用\alert{Python 3.11+}。IDE或编辑器（要求掌握）：
 	\begin{itemize}
 		\item PyCharm （适合专业、大型项目）或 VSCode （适合轻量级、小型项目）
 		\item Jupyter（适合演示、学习）
+		\item Codex, Claude Code, OpenCode
 		\item Python虚拟环境
 	\end{itemize}
 
-	其他工具（不要求掌握）：
-	\begin{itemize}
-		\item uv
-		\item ruff
-	\end{itemize}
+	\alert{本门课程的开发环境基于\href{https://docs.astral.sh/uv/}{uv}}。
+
 \end{frame}
 
 {
-\usebackgroundtemplate{
-	\tikz[overlay, remember picture]
-	\node[opacity=0.4, at=(current page.south east), anchor=south east, yshift=2cm,] {
-		\includegraphics[height=0.6\paperheight]{cover}};
-}
-\begin{frame}
-	\section{\textcolor{darkmidnightblue}{2. 什么是计算？}}
-\end{frame}
+	\usebackgroundtemplate{
+		\tikz[overlay, remember picture]
+		\node[opacity=0.4, at=(current page.south east), anchor=south east, yshift=2cm,] {
+			\includegraphics[height=0.6\paperheight]{cover}};
+	}
+	\begin{frame}
+		\section{\textcolor{darkmidnightblue}{2. 什么是计算？}}
+	\end{frame}
 }
 
 \begin{frame}
@@ -311,7 +310,6 @@
 \begin{frame}[fragile]
 	尽管现代计算机的功能强大（TB级别的存储和GHz级别的CPU），但是计算机只能执行程序员告诉它的任务。换言之，我们需要将\alert{知识注入计算机}，而知识的载体就是编程语言。
 
-	\pause
 	知识的分类：
 
 	\begin{itemize}
@@ -354,23 +352,12 @@
 	\begin{minted}[bgcolor=LightGray, baselinestretch=1]{python}
 print("Hello World!")
   \end{minted}
-	即使本地没有安装Python，也可以通过浏览器在\url{https://replit.com}上运行Python代码。
-	\begin{itemize}
-		\item \url{https://www.online-ide.com/}
-		\item \url{https://www.programiz.com/python-programming/}
-		\item \url{https://www.jdoodle.com/}
-	\end{itemize}
-
-\end{frame}
-
-\begin{frame}[fragile]
 
 	\begin{minted}[bgcolor=LightGray, baselinestretch=1]{c}
 #include <stdio.h>
-#include <stdlib.h>
 int main(void) {
   printf("Hello World!\n");
-  return EXIT_SUCCESS;
+  return 0;
 }
   \end{minted}
 
@@ -381,6 +368,7 @@ public class Test {
   }
 }
   \end{minted}
+
 \end{frame}
 
 \begin{frame}
@@ -388,20 +376,19 @@ public class Test {
 	\begin{itemize}
 		\item 获取股票价格
 		\item 生成二维码
-		\item 生成词云
-		\item 聊天机器人
+		\item 可视化
 	\end{itemize}
 \end{frame}
 
 {
-\usebackgroundtemplate{
-	\tikz[overlay, remember picture]
-	\node[opacity=0.4, at=(current page.south east), anchor=south east, yshift=2cm,] {
-		\includegraphics[height=0.6\paperheight]{cover}};
-}
-\begin{frame}
-	\section{\textcolor{darkmidnightblue}{3. Python程序}}
-\end{frame}
+	\usebackgroundtemplate{
+		\tikz[overlay, remember picture]
+		\node[opacity=0.4, at=(current page.south east), anchor=south east, yshift=2cm,] {
+			\includegraphics[height=0.6\paperheight]{cover}};
+	}
+	\begin{frame}
+		\section{\textcolor{darkmidnightblue}{3. Python程序}}
+	\end{frame}
 }
 
 \begin{frame}[fragile]
@@ -638,23 +625,25 @@ else:
 \begin{frame}
 	\frametitle{本周任务}
 	\begin{itemize}
-		\item 安装Python 3.10+
+		\item 安装Python 3.12+
 		\item 安装Visual Studio Code，并安装Python插件
 		\item 通过Python Shell或VSCode练习Python
 		\item 在Python Shell中输入\alert{import this}，并翻译显示的内容
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{安装JupyterLab}
-	建议创建并启动\href{https://docs.python.org/3/tutorial/venv.html}{虚拟环境}后再安装第三方包。\texttt{python -m venv ThePath}
+\begin{frame}{运行课程程序}
+
+	https://github.com/ChenZhongPu/python-swufe
+
 	\begin{block}{第0步}
-		配置国内的PIP镜像，如\href{https://mirrors.tuna.tsinghua.edu.cn/help/pypi/}{清华大学}、\href{https://mirror.sjtu.edu.cn/docs/pypi/web/simple}{上海交通大学}。
+		安装uv。下载项目压缩包，解压缩。
 	\end{block}
 	\begin{block}{第1步：安装}
-		命令行输入：pip install jupyterlab
+		命令行输入：uv sync
 	\end{block}
 	\begin{block}{第2步：启动}
-		命令行输入：jupyter-lab
+		命令行输入：uv run jupyter-lab
 	\end{block}
 \end{frame}
 \end{document}
