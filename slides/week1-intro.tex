@@ -260,7 +260,7 @@
 \begin{frame}{搜索工具}
 
 	\begin{itemize}
-		\item StackOverFlow、Google
+		\item \href{https://blog.pragmaticengineer.com/stack-overflow-is-almost-dead/}{\sout{StackOverFlow}}、Google
 		\item ChatGPT, Claude, DeepSeek
 		\item \texttt{help()}、\texttt{?}
 	\end{itemize}
@@ -632,7 +632,7 @@ else:
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{运行课程程序}
+\begin{frame}{运行课程程序（推荐）}
 
 	https://github.com/ChenZhongPu/python-swufe
 
@@ -643,7 +643,37 @@ else:
 		命令行输入：uv sync
 	\end{block}
 	\begin{block}{第2步：启动}
-		命令行输入：uv run jupyter-lab
+		命令行输入：uv run jupyter lab
 	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{运行课程程序：Python虚拟环境}
+	安装Python 3.12+，下载并解压项目，命令行进入项目目录。
+	\begin{block}{第1步：创建并激活虚拟环境}
+		\small
+		\verb|python -m venv .venv| \\
+		macOS/Linux：\verb|source .venv/bin/activate| \\
+		Windows：\verb|.venv\Scripts\activate|
+	\end{block}
+	\begin{block}{第2步：安装并启动}
+		\small
+		\verb|pip install jupyterlab| \\
+		\verb|jupyter lab|
+	\end{block}
+	{\footnotesize 提示：后续课程仅用Python标准库（在Jupyter中练习），无需安装其他包。}
+\end{frame}
+
+\begin{frame}[fragile]{运行课程程序：Miniconda虚拟环境}
+	安装\href{https://www.anaconda.com/docs/getting-started/miniconda/install}{Miniconda}，下载并解压项目，命令行进入项目目录。
+	\begin{block}{第1步：创建并激活虚拟环境}
+		\footnotesize
+		\verb|conda create -n swufe -c conda-forge python=3.12 jupyterlab| \\
+		\verb|conda activate swufe|
+	\end{block}
+	\begin{block}{第2步：启动}
+		\small
+		\verb|jupyter lab|
+	\end{block}
+	{\footnotesize 提示：后续课程仅用Python标准库（在Jupyter中练习），无需安装其他包。}
 \end{frame}
 \end{document}
