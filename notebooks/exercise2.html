@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python程序设计 · 第二周综合自测与编程实操 (西南财经大学)</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #2563eb;
+      --primary-dark: #0f172a;
+      --secondary: #0d9488;
+      --accent: #d97706;
+      --success: #16a34a;
+      --success-bg: #f0fdf4;
+      --success-border: #15803d;
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --danger-border: #b91c1c;
+      --warning-bg: #fffbeb;
+      --warning-border: #d97706;
+      --card-bg: #ffffff;
+      --bg: #f8fafc;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --code-bg: #0f172a;
+      --font-code: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 80px;
+    }
+
+    /* 顶栏与品牌 */
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
+      color: #ffffff;
+      padding: 38px 20px 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .badge-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .school-badge {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      line-height: 1.3;
+      letter-spacing: -0.5px;
+    }
+
+    .header-desc {
+      color: #cbd5e1;
+      font-size: 1.02rem;
+      max-width: 950px;
+    }
+
+    /* 主布局 */
+    .main-layout {
+      max-width: 1200px;
+      margin: -20px auto 0;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 统计看板卡片 */
+    .dashboard-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-color);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .stat-box {
+      background: #f8fafc;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #edf2f7;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .stat-val.success { color: var(--success); }
+    .stat-val.danger { color: var(--danger); }
+
+    .stat-lbl {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* 进度条 */
+    .progress-wrapper {
+      margin-bottom: 20px;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .progress-track {
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #16a34a);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    /* 分类筛选条 */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .filter-pill {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .filter-pill:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    .filter-pill.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* 操作按钮行 */
+    .action-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #1d4ed8; }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+    }
+    .btn-secondary:hover { background: #e2e8f0; }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+    }
+    .btn-danger:hover { background: #fecaca; }
+
+    /* 侧边导航栏 */
+    .sidebar-nav {
+      position: sticky;
+      top: 20px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .sidebar-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-bubbles-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .nav-bubble {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: #475569;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .nav-bubble:hover {
+      border-color: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    .nav-bubble.correct {
+      background: var(--success);
+      color: #fff;
+      border-color: var(--success-border);
+    }
+
+    .nav-bubble.wrong {
+      background: var(--danger);
+      color: #fff;
+      border-color: var(--danger-border);
+    }
+
+    .legend-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    /* 题目卡片 */
+    .questions-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 24px;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+      scroll-margin-top: 24px;
+    }
+
+    .question-card:hover {
+      box-shadow: var(--shadow);
+      border-color: #cbd5e1;
+    }
+
+    .q-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .q-badges {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .badge {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    .badge-num {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .badge-category {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .badge-diff-基础 {
+      background: #ecfdf5;
+      color: #065f46;
+    }
+
+    .badge-diff-进阶 {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .badge-diff-易错 {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .q-status {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .q-title {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .q-text {
+      font-size: 1rem;
+      color: #334155;
+      margin-bottom: 14px;
+    }
+
+    /* 代码块展示 */
+    .code-box {
+      background: var(--code-bg);
+      color: #e2e8f0;
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-family: var(--font-code);
+      font-size: 0.92rem;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      border: 1px solid #1e293b;
+      position: relative;
+    }
+
+    .code-box .code-lang {
+      position: absolute;
+      top: 6px;
+      right: 10px;
+      font-size: 0.72rem;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+    }
+
+    /* 选项列表 */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+      font-size: 0.96rem;
+      color: #334155;
+      transition: all 0.15s ease;
+      width: 100%;
+    }
+
+    .option-btn:hover:not(.disabled) {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      transform: translateX(3px);
+    }
+
+    .option-key {
+      font-weight: 700;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      min-width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #475569;
+      flex-shrink: 0;
+    }
+
+    .option-text {
+      flex: 1;
+      word-break: break-word;
+    }
+
+    .option-text code {
+      background: #e2e8f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-code);
+      font-size: 0.88em;
+    }
+
+    /* 选项状态 */
+    .option-btn.correct-choice {
+      background: var(--success-bg) !important;
+      border-color: var(--success-border) !important;
+      color: #065f46 !important;
+    }
+
+    .option-btn.correct-choice .option-key {
+      background: var(--success);
+      color: #fff;
+      border-color: var(--success-border);
+    }
+
+    .option-btn.wrong-choice {
+      background: var(--danger-bg) !important;
+      border-color: var(--danger-border) !important;
+      color: #991b1b !important;
+    }
+
+    .option-btn.wrong-choice .option-key {
+      background: var(--danger);
+      color: #fff;
+      border-color: var(--danger-border);
+    }
+
+    .option-btn.show-correct {
+      background: #f0fdf4 !important;
+      border: 2px dashed #16a34a !important;
+    }
+
+    /* 考点剖析折叠板 */
+    .explanation-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary-light);
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.92rem;
+      color: #334155;
+      display: none;
+      margin-top: 14px;
+    }
+
+    .explanation-box.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .exp-toggle-btn {
+      background: none;
+      border: none;
+      color: var(--primary-light);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .exp-toggle-btn:hover {
+      background: #eff6ff;
+    }
+
+    /* 实操编程题板块 */
+    .section-header {
+      margin: 40px 0 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-header h2 {
+      font-size: 1.6rem;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* 指引卡片 */
+    .guide-card {
+      background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 24px;
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .guide-item {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .guide-item h4 {
+      font-size: 1rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guide-item ul {
+      padding-left: 18px;
+      font-size: 0.88rem;
+      color: #475569;
+    }
+
+    .guide-item li {
+      margin-bottom: 6px;
+    }
+
+    /* 编程任务卡片 */
+    .task-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 26px;
+      margin-bottom: 26px;
+      border: 1px solid var(--border-color);
+    }
+
+    .task-meta {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .task-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 14px;
+    }
+
+    .task-scenario {
+      background: #f8fafc;
+      border-left: 4px solid #0ea5e9;
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+      color: #334155;
+    }
+
+    .task-req-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1e293b;
+    }
+
+    .task-req-list {
+      padding-left: 20px;
+      font-size: 0.92rem;
+      color: #334155;
+      margin-bottom: 18px;
+    }
+
+    .task-req-list li {
+      margin-bottom: 8px;
+    }
+
+    .io-preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .io-preview-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .io-box {
+      background: #0f172a;
+      color: #f1f5f9;
+      padding: 14px;
+      border-radius: 8px;
+      font-family: var(--font-code);
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .io-lbl {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+
+    .task-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .solution-panel {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      display: none;
+      margin-top: 16px;
+    }
+
+    .solution-panel.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* 诊断报告模态弹窗 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      padding: 30px;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px);
+      transition: transform 0.25s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .score-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .score-num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .score-sub {
+      font-size: 0.78rem;
+      opacity: 0.85;
+    }
+
+    .category-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .cat-bar-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cat-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: #475569;
+    }
+
+    .cat-bar-track {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .cat-bar-fill {
+      height: 100%;
+      background: var(--primary-light);
+      border-radius: 9999px;
+      transition: width 0.4s ease;
+    }
+
+    /* 悬浮提示条 */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      z-index: 2000;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 打印样式 */
+    @media print {
+      body { background: #fff; padding-bottom: 0; }
+      header { background: #1e3a8a !important; color: #fff !important; padding: 20px !important; }
+      .sidebar-nav, .dashboard-card, .btn, .filter-bar, .exp-toggle-btn { display: none !important; }
+      .main-layout { display: block !important; padding: 0 !important; margin: 0 !important; }
+      .question-card, .task-card { box-shadow: none !important; border: 1px solid #ccc !important; page-break-inside: avoid; margin-bottom: 20px !important; }
+      .explanation-box, .solution-panel { display: block !important; background: #fafafa !important; border: 1px solid #ddd !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部标题横幅 -->
+  <header>
+    <div class="header-container">
+      <div class="badge-bar">
+        <span class="school-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          西南财经大学 · 计算机与人工智能学院
+        </span>
+        <span class="school-badge">Python程序设计课程</span>
+        <span class="school-badge">第二周综合测评</span>
+      </div>
+      <h1>第二周 知识精通与编程实操自测题库</h1>
+      <p class="header-desc">
+        涵盖变量命名规则、数据类型与动态绑定、运算符优先级与短路求值、条件分支 if-elif-else、循环迭代 while/for/range 及中文字符串常用高级方法。包含 30 道精选单选题与 5 道 VSCode / Jupyter Lab 编程实操任务。
+      </p>
+    </div>
+  </header>
+
+  <!-- 主体区域 -->
+  <main class="main-layout">
+    
+    <!-- 左侧内容列：题目与实操题 -->
+    <div class="content-col">
+      
+      <!-- 答题进度与统计看板 -->
+      <section class="dashboard-card">
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-val" id="stat-total">30</div>
+            <div class="stat-lbl">自测题目数</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="stat-answered">0</div>
+            <div class="stat-lbl">已作答题数</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val success" id="stat-correct">0</div>
+            <div class="stat-lbl">答对题数</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val danger" id="stat-wrong">0</div>
+            <div class="stat-lbl">答错题数</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="stat-accuracy">0%</div>
+            <div class="stat-lbl">当前正确率</div>
+          </div>
+        </div>
+
+        <div class="progress-wrapper">
+          <div class="progress-labels">
+            <span>答题总进度</span>
+            <span id="progress-percent-text">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- 分类筛选导航条 -->
+        <div class="filter-bar">
+          <div class="filter-pill active" data-filter="all">全部题目 (30)</div>
+          <div class="filter-pill" data-filter="变量与命名规范">1. 变量与命名 (6)</div>
+          <div class="filter-pill" data-filter="运算符与逻辑求值">2. 运算符与逻辑 (6)</div>
+          <div class="filter-pill" data-filter="条件与分支结构">3. 分支结构 (5)</div>
+          <div class="filter-pill" data-filter="循环与迭代遍历">4. 循环与迭代 (7)</div>
+          <div class="filter-pill" data-filter="字符串与格式化I/O">5. 字符串与I/O (6)</div>
+          <div class="filter-pill" data-filter="wrong-only">❌ 只看错题 (<span id="wrong-filter-count">0</span>)</div>
+          <div class="filter-pill" data-filter="coding-tasks">💻 实操编程任务 (5)</div>
+        </div>
+
+        <div class="action-row">
+          <button class="btn btn-primary" onclick="openExamModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            交卷 / 查看诊断报告
+          </button>
+          <button class="btn btn-secondary" onclick="toggleAllExplanations()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span id="toggle-all-exp-text">全部展开解析</span>
+          </button>
+          <button class="btn btn-danger" onclick="resetAllAnswers()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            重置练习
+          </button>
+        </div>
+      </section>
+
+      <!-- 单选题容器 -->
+      <section id="choice-questions-section" class="questions-wrapper">
+        <!-- 由 JavaScript 动态渲染 -->
+      </section>
+
+      <!-- 实操编程大题板块 -->
+      <section id="programming-section">
+        <div class="section-header">
+          <h2>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            VSCode / Jupyter Lab 编程实操任务 (5题)
+          </h2>
+          <span style="color: var(--text-muted); font-size: 0.9rem;">请在本地编辑器或实验环境中实际编写运行并调试</span>
+        </div>
+
+        <!-- 实操环境推荐指引卡片 -->
+        <div class="guide-card">
+          <h3 style="font-size: 1.15rem; color: #1e3a8a; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            实操环境推荐指引与常用操作
+          </h3>
+          <p style="font-size: 0.9rem; color: #475569;">
+            本周编程实操题重点考察键盘输入交互、多分支阶梯判断、<code>while/for</code> 循环逻辑和字符串高级处理。推荐通过以下两种方式实操练习：
+          </p>
+
+          <div class="guide-grid">
+            <div class="guide-item">
+              <h4>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                VSCode（推荐工程化实操）
+              </h4>
+              <ul>
+                <li>在工作区新建 Python 脚本文件，例如 <code>task1.py</code>。</li>
+                <li>快捷键 <code>Ctrl + `</code> 打开内置终端。</li>
+                <li>终端输入指令：<code>python task1.py</code> 进行键盘输入交互。</li>
+                <li>如遇逻辑问题，可设置断点并按 <code>F5</code> 启动单步调试观察变量值变化。</li>
+              </ul>
+            </div>
+
+            <div class="guide-item">
+              <h4>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                Jupyter Lab / Notebook（推荐探索式验证）
+              </h4>
+              <ul>
+                <li>新建 <code>.ipynb</code> 文件，为每道实操题单独建立代码单元格（Cell）。</li>
+                <li>使用 <code>Shift + Enter</code> 快捷键执行当前单元格代码。</li>
+                <li>若遇到无限死循环，点击上方工具栏的 <strong>■（中断内核）</strong> 强行终止。</li>
+                <li>对不熟悉的函数可在单元格输入 <code>print?</code> 或 <code>help(str.strip)</code> 调出帮助文档。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 编程题卡片容器 -->
+        <div id="tasks-container">
+          <!-- 由 JavaScript 动态渲染 -->
+        </div>
+      </section>
+
+    </div>
+
+    <!-- 右侧固定答题卡面板 -->
+    <aside class="sidebar-col">
+      <div class="sidebar-nav">
+        <div class="sidebar-title">
+          <span>答题卡看板</span>
+          <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);" id="sidebar-progress-label">0/30</span>
+        </div>
+
+        <div class="nav-bubbles-grid" id="nav-bubbles-grid">
+          <!-- 30 个题号气泡由 JS 渲染 -->
+        </div>
+
+        <div class="legend-row">
+          <div class="legend-item">
+            <div class="legend-dot" style="background: #cbd5e1;"></div>
+            <span>未作答</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background: var(--success);"></div>
+            <span>正确</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background: var(--danger);"></div>
+            <span>错误</span>
+          </div>
+        </div>
+
+        <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 8px;">
+          <a href="#programming-section" class="btn btn-secondary" style="font-size: 0.85rem; width: 100%;">
+            ⚡ 直达实操编程题 (5)
+          </a>
+          <button class="btn btn-primary" onclick="openExamModal()" style="font-size: 0.85rem; width: 100%;">
+            📊 查看学情诊断
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- 测评报告弹窗 -->
+  <div class="modal-overlay" id="exam-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="score-circle">
+          <div class="score-num" id="modal-score">0</div>
+          <div class="score-sub">总分 100</div>
+        </div>
+        <h2 style="font-size: 1.4rem; color: #1e293b;" id="modal-evaluation">自测诊断报告</h2>
+        <p style="font-size: 0.9rem; color: #64748b;" id="modal-subtitle">已完成 0 / 30 题</p>
+      </div>
+
+      <div class="category-breakdown" id="modal-breakdown">
+        <!-- 由 JS 渲染各模块得分率 -->
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 8px; padding: 14px; margin: 16px 0; font-size: 0.9rem; color: #334155;" id="modal-advice">
+        <!-- 诊断建议 -->
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button class="btn btn-secondary" onclick="closeExamModal()">继续自测</button>
+        <button class="btn btn-primary" onclick="filterByMistakes(); closeExamModal();">只看本次错题</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 提示弹条 -->
+  <div class="toast" id="toast">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+    <span id="toast-text">已复制到剪贴板！</span>
+  </div>
+
+  <!-- 页面交互逻辑脚本 -->
+  <script>
+    const questions = [{"id": 1, "category": "变量与命名规范", "difficulty": "基础", "title": "合法标识符与 PEP 8 命名规范", "question": "在 Python 3 中，下列哪一个变量名是<strong>完全合法</strong>且符合 PEP 8 规范推荐的蛇形命名法（snake_case）？", "code": "", "options": ["2nd_student（以数字开头）", "student_name（小写字母与下划线连接）", "class（系统保留关键字）", "student-score（包含连字符减号）"], "answer": 1, "explanation": "<strong>正确答案是 B（student_name）。</strong><br><br><strong>考点剖析：</strong><br>1. <strong>Python 标识符命名规则：</strong>必须以英文字母或下划线（_）开头，后续可包含字母、数字或下划线；严格区分大小写；严禁使用 Python 系统保留关键字。<br>2. <strong>PEP 8 规范建议：</strong>普通变量与函数名推荐采用全小写字母、单词间以下划线连接的蛇形命名法（snake_case），如 <code>student_name</code>。<br><br><strong>干扰项分析：</strong><br>• <strong>A 错误：</strong>以数字 <code>2</code> 开头，会直接引发语法错误 <code>SyntaxError: invalid decimal literal</code>。<br>• <strong>C 错误：</strong><code>class</code> 是 Python 用于定义类的保留关键字，不可用作普通变量名。<br>• <strong>D 错误：</strong>连字符 <code>-</code> 在 Python 中会被解释为减法运算符，引发语法错误。"}, {"id": 2, "category": "变量与命名规范", "difficulty": "基础", "title": "动态类型与变量重新绑定", "question": "执行以下 Python 代码后，变量 <code>x</code> 和 <code>y</code> 的数据类型分别是什么？", "code": "x = 100\ny = \"100\"\nx = y", "options": ["整数型（int）、整数型（int）", "整数型（int）、字符串型（str）", "字符串型（str）、字符串型（str）", "字符串型（str）、整数型（int）"], "answer": 2, "explanation": "<strong>正确答案是 C（字符串型、字符串型）。</strong><br><br><strong>考点剖析：</strong><br>1. Python 是<strong>动态强类型语言</strong>。在 Python 中，“变量无类型，对象有类型”，变量名本质上是指向内存中对象的引用标签。<br>2. 初始时，<code>x</code> 指向整数对象 <code>100</code>，<code>y</code> 指向字符串对象 <code>\"100\"</code>。<br>3. 当执行 <code>x = y</code> 时，变量名 <code>x</code> 被重新绑定到了 <code>y</code> 所指向的同一对象（即字符串 <code>\"100\"</code>）。<br>4. 因此代码运行结束后，<code>type(x)</code> 和 <code>type(y)</code> 均为字符串型（<code>str</code>）。"}, {"id": 3, "category": "变量与命名规范", "difficulty": "易错", "title": "布尔真值判定（Truthy 与 Falsy）", "question": "在 Python 中使用 <code>bool()</code> 函数进行显式类型转换，下列哪项转换的结果为真（<code>True</code>）？", "code": "", "options": ["bool(0)（数值零）", "bool(\"\")（空字符串）", "bool(\"False\")（内容为 False 的字符串）", "bool(0.0)（浮点数零）"], "answer": 2, "explanation": "<strong>正确答案是 C（bool(\"False\")）。</strong><br><br><strong>考点剖析：</strong><br>1. 在 Python 的真值判定规则中，以下对象会被判定为假（<code>False</code>）：<br>   • 数值零：<code>0</code>、<code>0.0</code>、<code>0j</code><br>   • 空序列/空容器：空字符串 <code>\"\"</code>、空列表 <code>[]</code>、空元组 <code>()</code>、空字典 <code>{}</code><br>   • 特殊常量：<code>None</code>、<code>False</code><br>2. <strong>极高频易错点：</strong><code>\"False\"</code> 是一个包含 5 个字符的<strong>非空字符串</strong>！在 Python 中，只要字符串长度大于 0（即便内容是 <code>\"0\"</code> 或 <code>\"False\"</code> 甚至是单个空格 <code>\" \"</code>），转换布尔值时均为 <code>True</code>。"}, {"id": 4, "category": "变量与命名规范", "difficulty": "进阶", "title": "元组解包与多重变量赋值", "question": "阅读以下 Python 代码，执行后 <code>print(a, b)</code> 输出的结果是：", "code": "a = 10\nb = 20\na, b = b, a + b\nprint(a, b)", "options": ["20 30", "20 20", "10 30", "30 20"], "answer": 0, "explanation": "<strong>正确答案是 A（20 30）。</strong><br><br><strong>考点剖析：</strong><br>1. Python 在执行多重赋值 <code>a, b = b, a + b</code> 时，求值机制是：<strong>先完整计算等号右侧所有表达式的值构建临时元组，然后再统一解包赋值给左侧各个变量</strong>。<br>2. 右侧表达式计算时，读取当前状态：<code>b</code> 为 20，<code>a + b</code> 为 <code>10 + 20 = 30</code>，右侧先生成临时元组 <code>(20, 30)</code>。<br>3. 随后进行解包赋值：<code>a</code> 赋值为 20，<code>b</code> 赋值为 30。<br>4. 利用这种机制，在 Python 中可以无需中间临时变量，优雅实现两数交换：<code>a, b = b, a</code>。"}, {"id": 5, "category": "变量与命名规范", "difficulty": "基础", "title": "真除法（/）与数据类型提升", "question": "执行以下除法代码后，<code>print(type(result), result)</code> 的输出结果是：", "code": "result = 10 / 2\nprint(type(result), result)", "options": ["整数型 5（<class 'int'> 5）", "浮点型 5.0（<class 'float'> 5.0）", "整数型 5.0（<class 'int'> 5.0）", "浮点型 5（<class 'float'> 5）"], "answer": 1, "explanation": "<strong>正确答案是 B（浮点型 5.0）。</strong><br><br><strong>考点剖析：</strong><br>1. 从 Python 3 开始，单斜杠 <code>/</code> 定义为<strong>真除法（True Division）</strong>。不论操作数能否整除，其运算结果<strong>一律提升为浮点数（float）</strong>。<br>2. 因此 <code>10 / 2</code> 的计算结果是 <code>5.0</code> 而不是整数 <code>5</code>，其类型为 <code>&lt;class 'float'&gt;</code>。<br>3. 若需要向下截断取整，必须使用整除运算符 <code>//</code>，例如 <code>10 // 2</code> 得到整数 <code>5</code>。"}, {"id": 6, "category": "变量与命名规范", "difficulty": "易错", "title": "系统保留关键字（Keywords）辨析", "question": "下列四组单词中，哪一组中的单词<strong>全部属于</strong> Python 官方保留的系统关键字（Keywords）？", "code": "", "options": ["if、while、print", "True、def、name", "elif、in、break", "import、type、pass"], "answer": 2, "explanation": "<strong>正确答案是 C（elif、in、break）。</strong><br><br><strong>考点剖析：</strong><br>1. <code>elif</code>、<code>in</code>、<code>break</code> 全部是 Python 核心语法保留关键字（可通过 <code>import keyword; print(keyword.kwlist)</code> 查询验证）。<br>2. <strong>干扰项剖析：</strong><br>   • 选项 A 中的 <code>print</code> 是 Python 内置输出函数（Built-in Function），语法上并非保留关键字（虽然覆盖内置函数是不良习惯，但 <code>print = 1</code> 语法不会报错）；<br>   • 选项 B 中的 <code>name</code> 是普通用户自定义变量名；<br>   • 选项 D 中的 <code>type</code> 是内置获取类型的函数/类，不是保留关键字。"}, {"id": 7, "category": "运算符与逻辑求值", "difficulty": "易错", "title": "负数向下整除与取模运算", "question": "在 Python 中，整除表达式 <code>-7 // 2</code> 和取模表达式 <code>-7 % 2</code> 的计算结果分别是：", "code": "", "options": ["-3 和 -1", "-3 和 1", "-4 和 1", "-4 和 -1"], "answer": 2, "explanation": "<strong>正确答案是 C（-4 和 1）。</strong><br><br><strong>考点剖析：</strong><br>1. <strong>整除 <code>//</code>（向下取整）：</strong>向负无穷大方向取最近的整数。<code>-7 / 2 = -3.5</code>，向负无穷方向最靠近的整数是 <code>-4</code>。<br>2. <strong>取模 <code>%</code>：</strong>Python 取模严格满足代数恒等式：<code>被除数 = (商) * 除数 + 余数</code>，即 <code>a = (a // b) * b + (a % b)</code>。<br>3. 代入数值：<code>-7 = (-4) * 2 + r</code>，解得余数 <code>r = -7 - (-8) = 1</code>。<br>4. 提示：C/Java 等语言向零截断整除得 -3，取模得 -1；而 Python 向下取整使得正除数下的余数恒为非负数，这是 Python 的关键数学特性。"}, {"id": 8, "category": "运算符与逻辑求值", "difficulty": "进阶", "title": "乘方运算符（**）的右结合性", "question": "表达式 <code>2 ** 3 ** 2</code> 在 Python 中的计算结果是：", "code": "", "options": ["64", "512", "36", "18"], "answer": 1, "explanation": "<strong>正确答案是 B（512）。</strong><br><br><strong>考点剖析：</strong><br>1. Python 中大多数算术双目运算符（如 <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>）都是从左到右结合的。<br>2. <strong>乘方运算符 <code>**</code> 具有右结合性（Right-associative）</strong>：即优先计算右侧的幂。<br>3. 表达式 <code>2 ** 3 ** 2</code> 等价于 <code>2 ** (3 ** 2) = 2 ** 9 = 512</code>。<br>4. 若需要先算左边的幂，必须显式加圆括号：<code>(2 ** 3) ** 2 = 8 ** 2 = 64</code>。"}, {"id": 9, "category": "运算符与逻辑求值", "difficulty": "基础", "title": "连续链式比较运算符", "question": "在 Python 中，连续比较表达式 <code>3 < 5 > 4 == 4</code> 的求值结果是：", "code": "", "options": ["真（True）", "假（False）", "语法错误（SyntaxError）", "无法确定"], "answer": 0, "explanation": "<strong>正确答案是 A（真 / True）。</strong><br><br><strong>考点剖析：</strong><br>1. Python 原生支持<strong>链式比较（Chained Comparison）</strong>语法。<br>2. 表达式 <code>3 &lt; 5 &gt; 4 == 4</code> 会被自动隐式转化为各比较项的逻辑与：<code>(3 &lt; 5) and (5 &gt; 4) and (4 == 4)</code>。<br>3. 逐项判断：<code>3 &lt; 5</code> 为真，<code>5 &gt; 4</code> 为真，<code>4 == 4</code> 为真。<br>4. 所有条件全部为真，因此整体最终结果为 <code>True</code>。"}, {"id": 10, "category": "运算符与逻辑求值", "difficulty": "进阶", "title": "逻辑运算符的短路求值特性", "question": "阅读以下包含短路求值的代码，分析终端执行输出：", "code": "x = 0\ny = 10\nif x != 0 and (y / x > 1):\n    print(\"条件满足\")\nelse:\n    print(\"安全通过\")", "options": ["抛出除零异常（ZeroDivisionError）", "输出：条件满足", "输出：安全通过", "抛出类型错误异常（TypeError）"], "answer": 2, "explanation": "<strong>正确答案是 C（输出：安全通过）。</strong><br><br><strong>考点剖析：</strong><br>1. Python 的逻辑与（<code>and</code>）和逻辑或（<code>or</code>）采用<strong>短路求值（Short-circuit evaluation）</strong>机制。<br>2. 对于 <code>A and B</code>，从左往右求值：若左操作数 <code>A</code> 判定为假（此处 <code>x != 0</code> 为 <code>False</code>），整个 <code>and</code> 表达式已注定为假，Python <strong>根本不会再去计算右侧的 <code>B</code>（即 <code>y / x &gt; 1</code>）</strong>！<br>3. 因此，除以零的计算被安全跳过，程序不会崩溃报错，而是平稳进入 <code>else</code> 分支输出 <code>\"安全通过\"</code>。<br>4. 这是编写安全代码时常用于防御空值或零除错误的经典模式。"}, {"id": 11, "category": "运算符与逻辑求值", "difficulty": "易错", "title": "逻辑运算符（and/or）的实际返回值", "question": "在 Python 中，表达式 <code>'苹果' or '香蕉'</code> 和 <code>'' and '樱桃'</code> 的最终返回值分别是什么？", "code": "", "options": ["True 和 False", "'苹果' 和 ''（空字符串）", "'香蕉' 和 '樱桃'", "'苹果' 和 '樱桃'"], "answer": 1, "explanation": "<strong>正确答案是 B（'苹果' 和 ''）。</strong><br><br><strong>考点剖析：</strong><br>1. 在 Python 中，<code>and</code> 和 <code>or</code> 运算符返回的并不一定是布尔值 <code>True/False</code>，而是<strong>最后决定该表达式真假的操作数对象本身</strong>！<br>2. <strong>对于 <code>A or B</code>：</strong>若 <code>A</code> 为真值（非空字符串 <code>'苹果'</code> 为真），根据短路规则直接返回 <code>A</code>，无需评估 <code>B</code>，故返回 <code>'苹果'</code>。<br>3. <strong>对于 <code>A and B</code>：</strong>若 <code>A</code> 为假值（空字符串 <code>''</code> 为假），短路直接返回 <code>A</code>，故返回 <code>''</code>。<br>4. 该特性在设置缺省默认值时极其常用，如 <code>user = input_name or '匿名用户'</code>。"}, {"id": 12, "category": "运算符与逻辑求值", "difficulty": "综合", "title": "复合算术与逻辑优先级推演", "question": "阅读以下复合表达式，分析其最终输出结果：", "code": "ans = 2 + 3 * 2 ** 2 > 10 and not False\nprint(ans)", "options": ["假（False）", "真（True）", "数值 14", "语法错误"], "answer": 1, "explanation": "<strong>正确答案是 B（真 / True）。</strong><br><br><strong>考点剖析：</strong><br>1. 运算符优先级严格遵循：乘方 <code>**</code> &gt; 乘除 <code>*</code> &gt; 加减 <code>+</code> &gt; 比较 <code>&gt;</code> &gt; 逻辑非 <code>not</code> &gt; 逻辑与 <code>and</code>。<br>2. 步骤拆解推导：<br>   ① <code>2 ** 2 = 4</code>（优先计算乘方）<br>   ② <code>3 * 4 = 12</code>（计算乘法）<br>   ③ <code>2 + 12 = 14</code>（计算加法）<br>   ④ <code>14 &gt; 10</code> 得到 <code>True</code>（计算关系比较）<br>   ⑤ <code>not False</code> 得到 <code>True</code>（计算逻辑非）<br>   ⑥ <code>True and True</code> 最终结果为 <code>True</code>。"}, {"id": 13, "category": "条件与分支结构", "difficulty": "基础", "title": "Python 缩进规范与语法错误", "question": "下列关于 Python 缩进与分支代码块语法的叙述中，<strong>错误</strong>的是：", "code": "", "options": ["Python 使用严格的缩进（Indentation）来确定语句块层级，不需要像 C/Java 那样使用花括号 {}", "PEP 8 官方规范强烈推荐统一使用 4 个空格作为一个缩进层级", "Python 3 允许在同一个源文件中随意混用制表符（Tab）和空格进行代码缩进", "在 if 语句的冒号 : 之后如果没有任何有效缩进语句，会报缩进错误（IndentationError）"], "answer": 2, "explanation": "<strong>正确答案是 C（选项 C 叙述错误）。</strong><br><br><strong>考点剖析：</strong><br>1. Python 3 <strong>严格禁止在同一代码块中混用 Tab 和空格</strong>进行缩进！若混用，解释器会报 <code>TabError: inconsistent use of tabs and spaces in indentation</code>。<br>2. 在现代编辑器（如 VSCode、Jupyter Lab）中，推荐开启“将 Tab 转换为空格”配置。<br>3. 冒号 <code>:</code> 后若暂时不想写代码，必须使用 <code>pass</code> 占位，否则会因代码块为空而产生 <code>IndentationError: expected an indented block</code>。"}, {"id": 14, "category": "条件与分支结构", "difficulty": "易错", "title": "if-elif 分支互斥与条件顺序陷阱", "question": "阅读以下成绩评定代码，若变量 <code>score = 85</code>，程序最终输出的是：", "code": "score = 85\nif score >= 60:\n    print(\"及格\")\nelif score >= 80:\n    print(\"良好\")\nelif score >= 90:\n    print(\"优秀\")\nelse:\n    print(\"不及格\")", "options": ["良好", "及格", "及格 和 良好", "优秀"], "answer": 1, "explanation": "<strong>正确答案是 B（及格）。</strong><br><br><strong>考点剖析：</strong><br>1. <code>if-elif-else</code> 结构是<strong>互斥且自上而下按序匹配</strong>的。一旦某一个分支的条件被满足并执行其代码块，<strong>整个分支结构立即退出</strong>，后续所有 <code>elif</code> 和 <code>else</code> 均会被直接忽略！<br>2. 当 <code>score = 85</code> 时，第一个判断 <code>score &gt;= 60</code> 立即为真，执行 <code>print(\"及格\")</code> 后直接退出，根本没有机会判断 <code>score &gt;= 80</code>。<br>3. <strong>编程教训：</strong>多区间判断必须按照严格的从严格到宽松（从大到小，如 &gt;=90, &gt;=80, &gt;=60）的顺序组织，否则会导致较宽的条件拦截更精确的分支。"}, {"id": 15, "category": "条件与分支结构", "difficulty": "进阶", "title": "三元条件表达式（Conditional Expression）", "question": "Python 支持条件表达式语法 <code>X if 条件 else Y</code>。阅读以下代码，输出结果是：", "code": "a = 15\nmsg = \"偶数\" if a % 2 == 0 else \"奇数\" if a > 10 else \"较小数\"\nprint(msg)", "options": ["偶数", "奇数", "较小数", "抛出语法错误"], "answer": 1, "explanation": "<strong>正确答案是 B（奇数）。</strong><br><br><strong>考点剖析：</strong><br>1. 这是嵌套的三元条件表达式：<code>\"偶数\" if a % 2 == 0 else (\"奇数\" if a &gt; 10 else \"较小数\")</code>。<br>2. 首先判断第一个条件 <code>a % 2 == 0</code>：因为 <code>15 % 2 == 1 != 0</code> 为假，进入 <code>else</code> 部分。<br>3. 随后判断第二个条件 <code>a &gt; 10</code>：因为 <code>15 &gt; 10</code> 成立，返回 <code>\"奇数\"</code>。<br>4. 最终 <code>msg</code> 被赋值为 <code>\"奇数\"</code> 并打印。"}, {"id": 16, "category": "条件与分支结构", "difficulty": "易错", "title": "input() 返回类型与分支比较陷阱", "question": "有学生编写了如下退休判断程序，在终端运行并输入 <code>68</code> 按回车后，程序会发生什么？", "code": "age = input(\"请输入年龄: \")\nif age >= 65:\n    print(\"可以退休\")\nelse:\n    print(\"继续奋斗\")", "options": ["正常输出：可以退休", "正常输出：继续奋斗", "抛出类型错误（TypeError）：不支持字符串与整数直接使用 >= 比较", "抛出数值错误（ValueError）"], "answer": 2, "explanation": "<strong>正确答案是 C（抛出类型错误异常）。</strong><br><br><strong>考点剖析：</strong><br>1. <code>input()</code> 函数从标准输入读取的一律是<strong>字符串（str）</strong>类型。即使用户输入数字 <code>68</code>，变量 <code>age</code> 获得的值也是字符串 <code>\"68\"</code>。<br>2. 在 Python 3 中，字符串与整数属于不兼容的不同数据类型，不允许使用 <code>&gt;=</code> 或 <code>&lt;</code> 进行直接比较，运行时会立即抛出 <code>TypeError: '&gt;=' not supported between instances of 'str' and 'int'</code>。<br>3. <strong>正确做法：</strong>必须进行显式类型转换：<code>age = int(input(\"请输入年龄: \"))</code>。"}, {"id": 17, "category": "条件与分支结构", "difficulty": "基础", "title": "分支结构与变量作用域（Scope）", "question": "阅读以下嵌套分支代码，最终输出结果是：", "code": "x = 5\nif x > 3:\n    if x > 10:\n        status = \"高\"\n    else:\n        status = \"中等\"\nelse:\n    status = \"低\"\nprint(status)", "options": ["中等", "低", "高", "抛出变量未定义错误（NameError）"], "answer": 0, "explanation": "<strong>正确答案是 A（中等）。</strong><br><br><strong>考点剖析：</strong><br>1. 逻辑分支推导：外层 <code>x &gt; 3</code>（5 &gt; 3）为真，进入外层 <code>if</code> 代码块；内层 <code>x &gt; 10</code>（5 &gt; 10）为假，进入内层 <code>else</code>，执行 <code>status = \"中等\"</code>。<br>2. <strong>作用域机制：</strong>与 C/C++ 或 Java 不同，Python 中的 <code>if/elif/else</code> 代码块<strong>不会创建独立的局部块级作用域</strong>！在条件分支内创建或赋值的变量，在分支外部同样可见有效，因此能顺利输出 <code>\"中等\"</code>。"}, {"id": 18, "category": "循环与迭代遍历", "difficulty": "基础", "title": "while 循环计数与终止条件推演", "question": "阅读以下 <code>while</code> 循环代码，循环体内的 <code>print</code> 语句总共执行了多少次？", "code": "count = 1\nwhile count < 10:\n    count += 2\n    print(count)", "options": ["4次", "5次", "9次", "10次"], "answer": 1, "explanation": "<strong>正确答案是 B（5次）。</strong><br><br><strong>考点剖析：</strong><br>追踪变量 <code>count</code> 的单步变化：<br>• 第 1 轮：<code>count = 1 &lt; 10</code> 成立，增至 3，第 1 次打印 3；<br>• 第 2 轮：<code>count = 3 &lt; 10</code> 成立，增至 5，第 2 次打印 5；<br>• 第 3 轮：<code>count = 5 &lt; 10</code> 成立，增至 7，第 3 次打印 7；<br>• 第 4 轮：<code>count = 7 &lt; 10</code> 成立，增至 9，第 4 次打印 9；<br>• 第 5 轮：<code>count = 9 &lt; 10</code> 成立，增至 11，第 5 次打印 11；<br>• 第 6 轮检查：<code>count = 11 &lt; 10</code> 为假，退出循环。<br>因此 <code>print</code> 语句一共执行了 5 次。"}, {"id": 19, "category": "循环与迭代遍历", "difficulty": "进阶", "title": "break 与 continue 的执行流程控制", "question": "阅读以下结合了 <code>continue</code> 与 <code>break</code> 的循环累加代码，最终输出的变量 <code>s</code> 值是：", "code": "s = 0\nfor i in range(1, 10):\n    if i % 3 == 0:\n        continue\n    if i > 6:\n        break\n    s += i\nprint(s)", "options": ["11", "12", "15", "7"], "answer": 1, "explanation": "<strong>正确答案是 B（12）。</strong><br><br><strong>考点剖析：</strong><br><code>range(1, 10)</code> 依次生成 1 到 9：<br>• <code>i = 1</code>：累加 <code>s = 1</code><br>• <code>i = 2</code>：累加 <code>s = 1 + 2 = 3</code><br>• <code>i = 3</code>：<code>3 % 3 == 0</code> 成立，触发 <code>continue</code> 跳过本次累加<br>• <code>i = 4</code>：累加 <code>s = 3 + 4 = 7</code><br>• <code>i = 5</code>：累加 <code>s = 7 + 5 = 12</code><br>• <code>i = 6</code>：<code>6 % 3 == 0</code> 成立，触发 <code>continue</code> 跳过<br>• <code>i = 7</code>：满足 <code>i &gt; 6</code>，触发 <code>break</code>，<strong>彻底终止退出整个 for 循环</strong>！<br>累加过程为 1 + 2 + 4 + 5 = 12。"}, {"id": 20, "category": "循环与迭代遍历", "difficulty": "基础", "title": "range() 函数的负步长与区间", "question": "执行 Python 表达式 <code>list(range(10, 2, -3))</code> 的生成结果是：", "code": "", "options": ["[10, 7, 4, 1]", "[10, 7, 4]", "[10, 7, 4, 2]", "空列表 []"], "answer": 1, "explanation": "<strong>正确答案是 B（[10, 7, 4]）。</strong><br><br><strong>考点剖析：</strong><br>1. <code>range(start, stop, step)</code> 生成数字序列，区间严格遵循<strong>左闭右开 <code>[start, stop)</code></strong>，包含 <code>start</code> 但<strong>绝不包含 <code>stop</code></strong>。<br>2. 当步长 <code>step = -3</code>（负步长）时：要求生成的数字必须满足 <code>n &gt; stop</code>（即严格大于 2）：<br>   • 第 1 个数：<code>10</code><br>   • 第 2 个数：<code>10 - 3 = 7</code>（7 &gt; 2）<br>   • 第 3 个数：<code>7 - 3 = 4</code>（4 &gt; 2）<br>   • 下一个数是 <code>4 - 3 = 1</code>，因已不大于 2，生成结束！<br>3. 故列表结果为 <code>[10, 7, 4]</code>。"}, {"id": 21, "category": "循环与迭代遍历", "difficulty": "进阶", "title": "for...else 循环完成机制", "question": "阅读以下 <code>for...else</code> 结构代码，终端最终打印的内容是：", "code": "for n in range(2, 5):\n    if n == 6:\n        print(\"找到\")\n        break\nelse:\n    print(\"未找到\")", "options": ["找到", "未找到", "先输出 找到，再输出 未找到", "没有任何输出"], "answer": 1, "explanation": "<strong>正确答案是 B（未找到）。</strong><br><br><strong>考点剖析：</strong><br>1. Python 的循环结构（<code>for</code> 和 <code>while</code>）均可配合 <code>else</code> 从句使用。<br>2. <strong>触发规则：</strong>只有当循环是<strong>正常穷尽遍历完所有项（或者 while 条件自然变为假），且未被 <code>break</code> 语句中途强行打断时</strong>，才会执行 <code>else</code> 块！<br>3. 在本题中，<code>n</code> 取值 2, 3, 4，均不等于 6，<code>break</code> 从未被执行。循环正常结束后自然执行 <code>else</code> 代码块，打印 <code>\"未找到\"</code>。<br>4. 这种结构常用于“线性搜索（未找到时执行 else）”或“质数判定”。"}, {"id": 22, "category": "循环与迭代遍历", "difficulty": "易错", "title": "while True 无限循环与哨兵值模式", "question": "下列关于 <code>while True:</code> 无限循环结构的描述中，<strong>最准确</strong>的是：", "code": "", "options": ["属于语法错误，Python 不允许条件恒为真", "创建了一个无条件循环，常在循环体内部通过条件判定与 break 语句作为退出出口", "遇到 break 语句后，循环体内位于 break 之后的剩余代码依然会执行一次", "如果在 while True 内部使用 continue，程序会自动跳出循环"], "answer": 1, "explanation": "<strong>正确答案是 B。</strong><br><br><strong>考点剖析：</strong><br>1. <code>while True:</code> 是 Python 编程中处理<strong>未知迭代次数、事件驱动、人机交互输入</strong>的经典设计模式（哨兵模式）。<br>2. 在循环体内部，通常使用 <code>if</code> 检测用户是否输入了退出指令（如输入 <code>'000'</code> 或数字 0），若满足则执行 <code>break</code> 立即跳出。<br>3. 执行 <code>break</code> 会<strong>瞬间终止</strong>循环，位于其后的任何语句都不会被执行。"}, {"id": 23, "category": "循环与迭代遍历", "difficulty": "进阶", "title": "enumerate() 索引与中文字符迭代", "question": "阅读以下使用 <code>enumerate</code> 遍历中文字符串的代码，变量 <code>result</code> 的最终输出是：", "code": "word = \"西南财经大学\"\nresult = \"\"\nfor i, ch in enumerate(word):\n    if i % 2 == 0:\n        result += ch\nprint(result)", "options": ["南经学", "西南财", "西财大", "西南财经大学"], "answer": 2, "explanation": "<strong>正确答案是 C（西财大）。</strong><br><br><strong>考点剖析：</strong><br>1. <code>enumerate(\"西南财经大学\")</code> 在每次循环中同时产出 <code>(下标索引, 字符)</code> 元组：<br>   • 索引 0: 字符 <code>'西'</code>（0 % 2 == 0 成立，拼接 '西'）<br>   • 索引 1: 字符 <code>'南'</code>（1 % 2 == 1 为奇数，跳过）<br>   • 索引 2: 字符 <code>'财'</code>（2 % 2 == 0 成立，拼接 '财'）<br>   • 索引 3: 字符 <code>'经'</code>（3 % 2 == 1 为奇数，跳过）<br>   • 索引 4: 字符 <code>'大'</code>（4 % 2 == 0 成立，拼接 '大'）<br>   • 索引 5: 字符 <code>'学'</code>（5 % 2 == 1 为奇数，跳过）<br>2. 最终拼接得到的字符串为 <code>\"西财大\"</code>。"}, {"id": 24, "category": "循环与迭代遍历", "difficulty": "易错", "title": "无限死循环陷阱识别", "question": "下列四段代码中，哪一段会陷入<strong>无限死循环</strong>（程序永远无法自行退出）？", "code": "", "options": ["i = 10\nwhile i > 0:\n    i -= 1", "i = 1\nwhile i < 10:\n    i *= 2", "i = 0\nwhile i < 10:\n    if i == 5:\n        continue\n    i += 1", "for i in range(10):\n    i = 0"], "answer": 2, "explanation": "<strong>正确答案是 C。</strong><br><br><strong>考点剖析：</strong><br>• <strong>C 会死循环：</strong>当 <code>i</code> 自增到 5 时，触发 <code>if i == 5: continue</code>；<code>continue</code> 会直接跳过本轮循环剩下的 <code>i += 1</code>，再次进入 <code>while i &lt; 10</code> 的条件判断；此时 <code>i</code> 依然是 5，再次进入 <code>continue</code>……因此 <code>i</code> 永远停留在 5，陷入无法终止的死循环！<br>• <strong>D 不会死循环：</strong>在 Python 的 <code>for</code> 循环中，每次迭代开始前，解释器都会从迭代器（<code>range(10)</code>）中取出下一个新值重新绑定给变量 <code>i</code>，因此循环体内修改 <code>i = 0</code> 不会影响下一次迭代，循环 10 次后正常结束。"}, {"id": 25, "category": "字符串与格式化I/O", "difficulty": "基础", "title": "字符串的不可变性（Immutability）", "question": "运行以下尝试修改字符串的代码，Python 解释器的反应是：", "code": "s = \"西财\"\ns[0] = \"东\"\nprint(s)", "options": ["成功将首字改为东，输出：东财", "不报错，但原字符串内容不变，输出：西财", "抛出类型错误（TypeError）：'str' 对象不支持字符赋值修改", "抛出索引越界错误（IndexError）"], "answer": 2, "explanation": "<strong>正确答案是 C（抛出类型错误异常）。</strong><br><br><strong>考点剖析：</strong><br>1. Python 中的字符串（<code>str</code>）是<strong>不可变数据类型（Immutable Object）</strong>。<br>2. 字符串一旦被创建，其内部的字符序列就无法被原地更改、替换或追加。使用索引下标赋值语法 <code>s[0] = ...</code> 会直接触发 <code>TypeError: 'str' object does not support item assignment</code>。<br>3. <strong>正确修改方式：</strong>通过切片与拼接生成全新的字符串对象，例如 <code>s = \"东\" + s[1:]</code>。"}, {"id": 26, "category": "字符串与格式化I/O", "difficulty": "基础", "title": "字符串切片与步长反转", "question": "给定字符串 <code>text = \"西南财经大学\"</code>，下列切片表达式能够得到反转字符串 <code>\"学大经财南西\"</code> 的是：", "code": "", "options": ["text[:]", "text[::-1]", "text[-1:0]", "text[0:-1:-1]"], "answer": 1, "explanation": "<strong>正确答案是 B（text[::-1]）。</strong><br><br><strong>考点剖析：</strong><br>1. 完整的切片语法为 <code>sequence[start:stop:step]</code>。<br>2. 当 <code>step = -1</code> 时，表示从右向左进行逆向切片。<br>3. 当同时省略 <code>start</code> 和 <code>stop</code> 时，<code>text[::-1]</code> 表示从字符串的最右端倒序遍历到最左端，是 Python 中反转序列（字符串、列表、元组）最简洁且最高效的原生语法。<br>4. 选项 C 的切片方向与默认正向步长冲突，返回空字符串 <code>\"\"</code>。"}, {"id": 27, "category": "字符串与格式化I/O", "difficulty": "进阶", "title": "中文字符比较与 Unicode 编码", "question": "在 Python 中，比较表达式 <code>'中国' > '中华'</code> 的计算结果及其原因是：<br>（注：字符 <code>'国'</code> 的 Unicode 编码码点为 22269，字符 <code>'华'</code> 的 Unicode 编码码点为 21326）", "code": "", "options": ["真（True），因为首字相同，次字 '国' 的 Unicode 编码值（22269）大于 '华'（21326）", "假（False），因为汉字词语不能比较大小", "假（False），因为在字典中中华排在前面", "抛出编码错误异常（UnicodeError）"], "answer": 0, "explanation": "<strong>正确答案是 A（真 / True）。</strong><br><br><strong>考点剖析：</strong><br>1. Python 中的字符串支持大小比较运算符（<code>&gt;</code>、<code>&lt;</code>、<code>==</code> 等），比较规则是<strong>按字典序从左往右逐个字符比对各字符的 Unicode 编码值（即 <code>ord(char)</code> 的返回值）</strong>。<br>2. 比较过程：两词首字均为 <code>'中'</code>（码点相同），继续比较第二个字符；<code>ord('国') = 22269</code>，<code>ord('华') = 21326</code>。因为 <code>22269 &gt; 21326</code>，次字符判定胜出，直接返回 <code>True</code>！<br>3. 中文字符同样完全遵循基于 Unicode 码点的字典序比较规则。"}, {"id": 28, "category": "字符串与格式化I/O", "difficulty": "进阶", "title": "f-string 宽度对齐与小数精度控制", "question": "阅读以下关于浮点数格式化的代码，其输出结果是：", "code": "val = 3.1415926\nprint(f\"|{val:7.2f}|\")", "options": ["|   3.14|（数字前填充 3 个空格，数值默认右对齐，占位总宽为 7）", "| 3.14|（数字前填充 1 个空格）", "|3.14   |（数字后填充 3 个空格，左对齐）", "|0003.14|（自动前导补零）"], "answer": 0, "explanation": "<strong>正确答案是 A（|   3.14|）。</strong><br><br><strong>考点剖析：</strong><br>1. 格式占位符 <code>{val:7.2f}</code> 中：<br>   • <code>7</code> 表示输出字段的最小总宽度（Width）；<br>   • <code>.2f</code> 表示保留 2 位小数的浮点数输出。<br>2. <code>3.1415926</code> 四舍五入保留 2 位小数得到 <code>\"3.14\"</code>，自身字符宽度为 4（包含字符 '3'、'.'、'1'、'4'）。<br>3. 在 Python 格式化规范中，<strong>数值类型默认右对齐（Right-aligned）</strong>。为了达到总宽度 7，系统自动在其左侧填充 <code>7 - 4 = 3</code> 个空格，即 <code>\"   3.14\"</code>。<br>4. 两侧拼接竖线后即为 <code>|   3.14|</code>。"}, {"id": 29, "category": "字符串与格式化I/O", "difficulty": "基础", "title": "字符串 split 与 join 组合操作", "question": "阅读以下关于 <code>split</code> 和 <code>join</code> 的中文字符串操作代码，变量 <code>result</code> 的输出值是：", "code": "cities = \"成都, 重庆, 北京\"\nitems = cities.split(\", \")\nresult = \"-\".join(items)\nprint(result)", "options": ["成都-重庆-北京", "成都 - 重庆 - 北京", "成都,-重庆,-北京", "['成都', '重庆', '北京']"], "answer": 0, "explanation": "<strong>正确答案是 A（成都-重庆-北京）。</strong><br><br><strong>考点剖析：</strong><br>1. <code>cities.split(\", \")</code>：以逗号加空格 <code>\", \"</code> 作为分隔符将字符串切分为列表，生成 <code>['成都', '重庆', '北京']</code>。<br>2. <code>\"-\".join(items)</code>：以短横线 <code>\"-\"</code> 为连接符将列表中的中文字符串元素串联为一个新字符串。<br>3. 连接结果为 <code>\"成都-重庆-北京\"</code>。"}, {"id": 30, "category": "字符串与格式化I/O", "difficulty": "进阶", "title": "字符串方法链式调用与清洗", "question": "连续链式调用字符串方法，最终变量 <code>cleaned</code> 的值是：", "code": "raw = \"  #西南财经大学#  \\n\"\ncleaned = raw.strip().replace(\"#\", \"\")\nprint(cleaned)", "options": ["西南财经大学", "#西南财经大学#", "  #西南财经大学#  ", "西南 财经 大学"], "answer": 0, "explanation": "<strong>正确答案是 A（西南财经大学）。</strong><br><br><strong>考点剖析：</strong><br>方法链从左至右依次执行：<br>1. <code>raw.strip()</code>：剔除首尾的空白字符（包括两端空格和末尾换行符 <code>\\n</code>），得到 <code>\"#西南财经大学#\"</code>；<br>2. <code>.replace(\"#\", \"\")</code>：将字符串中所有的 <code>\"#\"</code> 字符替换为空，即彻底删除井号，最终得到 <code>\"西南财经大学\"</code>。"}];
+    const programmingTasks = [{"id": 1, "title": "实操题 1：阶梯理财利率与复利本息和计算器", "tags": ["键盘输入", "类型转换", "分支结构", "格式化输出"], "difficulty": "基础", "scenario": "西南财经大学金融创新实验室正开发一款阶梯收益理财模拟器。系统根据储户存入的本金金额（元）执行差别化年化利率：<br>• 金额 < 10,000 元：年化利率 1.5%<br>• 10,000 ≤ 金额 < 50,000 元：年化利率 2.5%<br>• 50,000 ≤ 金额 < 100,000 元：年化利率 3.2%<br>• 100,000 ≤ 金额 < 500,000 元：年化利率 4.0%<br>• 金额 ≥ 500,000 元：年化利率 4.8%", "requirements": ["使用 <code>input()</code> 提示用户输入存款本金（浮点型 float）和存款年限（整型 int）。", "进行数据合法性校验：如果输入的本金 ≤ 0 或年限 ≤ 0，输出 <code>\"【错误】本金与年限必须为正数！\"</code> 并退出程序。", "根据本金落在的阶梯匹配年化利率，使用复利公式 <code>本息和 = 本金 * (1 + 年利率) ** 年限</code> 计算最终本息总额。", "计算累计净利息 <code>累计利息 = 本息和 - 本金</code>。", "使用 <code>f-string</code> 对齐格式化输出结果，金额保留 2 位小数并带千分位分隔符，利率以百分比形式显示。"], "input_sample": "请输入存款本金（元）: 200000\n请输入存款年限（年）: 3", "output_sample": "========================================\n             西财理财收益试算明细单             \n========================================\n存款本金:       200,000.00 元\n适用年化利率:         4.00 %\n存款期限:                3 年\n预计累计利息:    24,972.80 元\n期满本息总额:   224,972.80 元\n========================================", "vscode_guide": "• 在 VSCode 中新建脚本文件 <code>task1_interest.py</code>。<br>• 快捷键 <code>Ctrl + `</code> 打开集成终端，输入 <code>python task1_interest.py</code> 运行。<br>• 尝试输入 <code>200000</code> 和 <code>3</code>，观察千分位和浮点数排版对齐。", "jupyter_guide": "• 在 Jupyter Lab 中新建 Notebook，在单个代码单元格（Cell）中编写。<br>• 快捷键 <code>Shift + Enter</code> 执行，单元格下方会弹出输入框，依次输入并回车验证。", "starter_code": "# ==========================================\n# 实操题 1：阶梯理财收益计算器\n# 请在下方补充完整代码\n# ==========================================\n\n# 1. 接收用户输入并转换类型\nmoney_str = input(\"请输入存款本金（元）: \")\nyears_str = input(\"请输入存款年限（年）: \")\n\n# 请在此处编写数值合法性检查、阶梯条件分支判断与计算\n", "solution_code": "# ==========================================\n# 参考解答：实操题 1\n# ==========================================\ntry:\n    principal = float(input(\"请输入存款本金（元）: \"))\n    years = int(input(\"请输入存款年限（年）: \"))\nexcept ValueError:\n    print(\"【错误】输入格式无效，请输入有效数字！\")\n    exit()\n\n# 1. 合法性检查\nif principal <= 0 or years <= 0:\n    print(\"【错误】本金与年限必须为正数！\")\nelse:\n    # 2. 阶梯利率判定（从低到高递进判断）\n    if principal < 10000:\n        rate = 0.015\n    elif principal < 50000:\n        rate = 0.025\n    elif principal < 100000:\n        rate = 0.032\n    elif principal < 500000:\n        rate = 0.040\n    else:\n        rate = 0.048\n\n    # 3. 复利公式计算\n    total = principal * ((1 + rate) ** years)\n    interest = total - principal\n\n    # 4. f-string 优雅格式化输出\n    print(\"=\" * 40)\n    print(f\"{'西财理财收益试算明细单':^30}\")\n    print(\"=\" * 40)\n    print(f\"存款本金:   {principal:>14,.2f} 元\")\n    print(f\"适用年化利率: {rate * 100:>12.2f} %\")\n    print(f\"存款期限:   {years:>14d} 年\")\n    print(f\"预计累计利息: {interest:>12,.2f} 元\")\n    print(f\"期满本息总额: {total:>12,.2f} 元\")\n    print(\"=\" * 40)", "analysis": "1. <strong>类型转换防护：</strong><code>input()</code> 读到的是字符串，使用 <code>float()</code> 和 <code>int()</code> 显式转换。<br>2. <strong>阶梯分支互斥性：</strong>利用 <code>if-elif-else</code> 短路特性，按 <code>&lt; 10000</code>、<code>&lt; 50000</code> 递进判断，逻辑严密不易遗漏边界。<br>3. <strong>格式说明符：</strong><code>{principal:&gt;14,.2f}</code> 中，<code>,</code> 代表千分位，<code>.2f</code> 保留两位小数，<code>&gt;14</code> 右对齐占位 14 字符。"}, {"id": 2, "title": "实操题 2：无人超市收银台循环计费与满减结算", "tags": ["无限循环", "提前退出", "过滤跳过", "累加统计", "满减折扣"], "difficulty": "进阶", "scenario": "西南财经大学柳林校区引入了无人超市智能收银台。顾客需逐一扫描商品并录入价格。录入结束后，系统进行阶梯满减优惠计算并出具结账清单：<br>• 满 200 元立减 30 元<br>• 满 100 元立减 10 元<br>• 未满 100 元无优惠", "requirements": ["使用 <code>while True:</code> 循环连续接收顾客输入的商品单价。", "<strong>终止信号：</strong>当用户输入 <code>000</code> 或 <code>0</code> 时，停止扫码，跳出循环。", "<strong>容错过滤：</strong>如果输入价格为负数，打印 <code>\"【提示】价格不能为负，已忽略该件商品！\"</code>，并使用 <code>continue</code> 跳过本次累加。", "<strong>累计统计：</strong>记录有效商品总件数 <code>count</code> 和商品原价总金额 <code>raw_total</code>。", "<strong>满减优惠：</strong>跳出循环后根据原价判定满减金额 <code>discount</code>，并计算实际应付款项 <code>pay_total</code>。", "打印清晰美观的中文化结账小票。"], "input_sample": "扫码录入商品单价 (输入 000 结算): 45.50\n扫码录入商品单价 (输入 000 结算): -5.0\n扫码录入商品单价 (输入 000 结算): 68.00\n扫码录入商品单价 (输入 000 结算): 92.50\n扫码录入商品单价 (输入 000 结算): 000", "output_sample": "【提示】价格不能为负，已忽略该件商品！\n----------------------------------------\n             西财无人超市结账小票             \n----------------------------------------\n有效件数:                3 件\n商品原价:           206.00 元\n满减优惠:           -30.00 元 (满200立减30)\n实际应付:           176.00 元\n----------------------------------------", "vscode_guide": "• 在 VSCode 中新建 <code>task2_pos.py</code>。<br>• 运行终端，连续输入多个数字，最后输入 <code>000</code> 观察是否正常跳出并输出正确满减优惠。", "jupyter_guide": "• 在 Jupyter Lab 中，<code>while True:</code> 循环每轮都会弹出一个输入框。请连续输入测试数据，最后输入 <code>000</code>。<br>• <strong>应急操作：</strong>若不小心写出死循环，点击 Jupyter 顶部工具栏的 <strong>■（中断内核）</strong> 强行终止。", "starter_code": "# ==========================================\n# 实操题 2：超市收银台循环计费系统\n# ==========================================\nraw_total = 0.0\ncount = 0\n\nwhile True:\n    user_input = input(\"扫码录入商品单价 (输入 000 结算): \").strip()\n    # 请补充终止退出、异常价格跳过、金额累加逻辑\n    \n\n# 循环结束后，请补充满减计算与打印逻辑\n", "solution_code": "# ==========================================\n# 参考解答：实操题 2\n# ==========================================\nraw_total = 0.0\ncount = 0\n\nprint(\"欢迎使用西财无人超市智能收银系统！\")\nwhile True:\n    user_input = input(\"扫码录入商品单价 (输入 000 结算): \").strip()\n    \n    # 1. 检测哨兵退出条件\n    if user_input == \"000\" or user_input == \"0\":\n        break\n    \n    # 2. 转换数值并进行非负判断\n    try:\n        price = float(user_input)\n    except ValueError:\n        print(\"【提示】输入格式错误，请重新输入有效数字！\")\n        continue\n        \n    if price < 0:\n        print(\"【提示】价格不能为负，已忽略该件商品！\")\n        continue\n    \n    # 3. 有效商品累加\n    raw_total += price\n    count += 1\n\n# 4. 满减优惠计算\ndiscount = 0.0\npromotion_desc = \"无优惠\"\nif raw_total >= 200:\n    discount = 30.0\n    promotion_desc = \"满200立减30\"\nelif raw_total >= 100:\n    discount = 10.0\n    promotion_desc = \"满100立减10\"\n\npay_total = max(0.0, raw_total - discount)\n\n# 5. 打印结账小票\nprint(\"-\" * 40)\nprint(f\"{'西财无人超市结账小票':^30}\")\nprint(\"-\" * 40)\nprint(f\"有效件数:   {count:>14d} 件\")\nprint(f\"商品原价:   {raw_total:>14.2f} 元\")\nprint(f\"满减优惠:   {-discount:>14.2f} 元 ({promotion_desc})\")\nprint(f\"实际应付:   {pay_total:>14.2f} 元\")\nprint(\"-\" * 40)", "analysis": "1. <strong>哨兵模式：</strong>使用 <code>while True:</code> 配合 <code>if user_input in ('000', '0'): break</code>，避免在循环外重复写一次输入语句，符合 DRY（Don't Repeat Yourself）原则。<br>2. <strong><code>continue</code> 的作用：</strong>遇到负数商品价格时，调用 <code>continue</code> 立即跳过本次迭代，避免累加异常金额。<br>3. <strong>边界防御：</strong>使用 <code>max(0.0, ...)</code> 防止极端情况下优惠扣减导致负数付款。"}, {"id": 3, "title": "实操题 3：整数立方根搜索与质数判定器", "tags": ["while循环", "for...else", "因子搜索", "质数判断"], "difficulty": "进阶", "scenario": "紧密对应 Week 2 课件核心练习题：给定一个正整数 N，分别实现两种典型数论算法检测：<br>1. <strong>寻找整数立方根：</strong>判断是否存在正整数 y 使得 y³ = N；<br>2. <strong>质数判定：</strong>使用 Python 特有的 <code>for...else</code> 结构判断 N 是否为质数。", "requirements": ["输入一个正整数 N（转换为整型 int）。", "<strong>功能 A（立方根搜索）：</strong>使用 <code>while</code> 循环，变量 y 从 1 开始递增，当 y³ ≥ N 时退出循环。退出后判断 y³ == N，若相等则输出 <code>f\"【1】立方根检测: {N} 的整数立方根是 {y}\"</code>，否则输出 <code>f\"【1】立方根检测: {N} 没有整数立方根\"</code>。", "<strong>功能 B（质数检测）：</strong>使用 <code>for factor in range(2, int(N ** 0.5) + 1):</code> 遍历可能因子：<br>• 若 <code>N % factor == 0</code>，打印 <code>f\"【2】质数检测: {N} 不是质数，存在因子 {factor}\"</code>，并立即 <code>break</code>；<br>• 在 <code>for</code> 的 <code>else</code> 分支中输出 <code>f\"【2】质数检测: {N} 是一个质数！\"</code>（特殊情况：若 N = 1，单独提示 1 既非质数也非合数）。"], "input_sample": "请输入待检测的正整数 N: 27", "output_sample": "----------------------------------------\n【1】立方根检测: 27 的整数立方根是 3\n【2】质数检测: 27 不是质数，存在因子 3\n----------------------------------------", "vscode_guide": "• 在 VSCode 中新建 <code>task3_math.py</code>。<br>• 尝试输入 <code>27</code>（立方根为 3，合数）、<code>26</code>（无整数立方根，合数）、<code>29</code>（无整数立方根，质数）分别验证逻辑。", "jupyter_guide": "• 在 Jupyter Lab 中分步体验：先在 Cell 1 测试立方根 while 循环，再在 Cell 2 测试质数 for...else。<br>• 深入体会 `for...else` 在命中 break 与未命中 break 时的不同执行分支。", "starter_code": "# ==========================================\n# 实操题 3：立方根与质数判定器\n# ==========================================\nnum = int(input(\"请输入待检测的正整数 N: \"))\n\n# 功能 A：请使用 while 循环寻找整数立方根\n\n\n# 功能 B：请使用 for...else 结构进行质数判定\n", "solution_code": "# ==========================================\n# 参考解答：实操题 3\n# ==========================================\nnum = int(input(\"请输入待检测的正整数 N: \"))\n\nif num <= 0:\n    print(\"请输入大于 0 的正整数！\")\n    exit()\n\nprint(\"-\" * 40)\n\n# ------------------------------------------\n# 功能 A：寻找整数立方根（while 结构）\n# ------------------------------------------\ny = 1\nwhile y ** 3 < num:\n    y += 1\n\nif y ** 3 == num:\n    print(f\"【1】立方根检测: {num} 的整数立方根是 {y}\")\nelse:\n    print(f\"【1】立方根检测: {num} 没有整数立方根\")\n\n# ------------------------------------------\n# 功能 B：质数判定（for...else 结构）\n# ------------------------------------------\nif num == 1:\n    print(\"【2】质数检测: 1 既不是质数也不是合数\")\nelse:\n    # 试除法只需遍历到 sqrt(N)\n    for factor in range(2, int(num ** 0.5) + 1):\n        if num % factor == 0:\n            print(f\"【2】质数检测: {num} 不是质数，存在因子 {factor}\")\n            break\n    else:\n        # 只有整个 range 都无法整除、没有触发 break 时才执行 else\n        print(f\"【2】质数检测: {num} 是一个质数！\")\n\nprint(\"-\" * 40)", "analysis": "1. <strong>立方根递增终止：</strong><code>while y ** 3 &lt; num: y += 1</code>，循环退出后仅需检查 <code>y ** 3 == num</code>，逻辑清晰直接。<br>2. <strong><code>for...else</code> 的精髓：</strong>避免了在外部声明布尔标志位 <code>is_prime = True</code>，代码更符合 Pythonic 风格。<br>3. <strong>开方优化：</strong>因数总是成对出现的，只需检查到 <code>int(num ** 0.5) + 1</code>（即 $\\sqrt{N}$）即可，大幅提升效率。"}, {"id": 4, "title": "实操题 4：规范化学籍数据清洗与密码安全性校验", "tags": ["去空白", "字符串拆分", "前缀判断", "密码强度", "字符属性"], "difficulty": "进阶", "scenario": "西南财经大学学工系统接收到一批混杂的学籍导入文本，需要进行格式清洗规范化，并要求学生初始化符合系统安全策略的密码。", "requirements": ["<strong>任务一（学籍信息清洗）：</strong><br>• 用户输入一行原始学籍文本，例如：<code>\"   2026110201 , 张三 , 金融学院  \\n\"</code>。<br>• 调用 <code>strip()</code> 去除首尾空白，使用 <code>split(',')</code> 按逗号拆分出学号、姓名、学院字段。<br>• 拆分后，每个字段各自调用 <code>strip()</code> 去除首尾多余空格。<br>• <strong>学号校验：</strong>学号必须是 10 位长度、纯数字组成（<code>.isdigit()</code>）、且以 <code>\"2026\"</code> 开头（<code>.startswith()</code>）。若不合规，给出明确警告。", "<strong>任务二（密码安全强度校验）：</strong><br>• 提示用户输入一个新登录密码。<br>• <strong>规则：</strong>① 长度不少于 8 位；② 必须包含至少一个大写英文字母；③ 必须包含至少一个数字字符。<br>• 遍历密码字符串，利用 <code>.isupper()</code> 和 <code>.isdigit()</code> 检测，若全部满足输出 <code>\"【通过】密码安全强度达标！\"</code>，否则指出具体缺少哪一项。"], "input_sample": "请输入原始学籍记录:    2026110201 , 张三 , 金融学院  \n请输入初始密码: Swufe2026", "output_sample": "========================================\n               学籍数据清洗结果单               \n========================================\n学号: 2026110201 【校验通过: 2026级本科学籍】\n姓名: 张三\n学院: 金融学院\n----------------------------------------\n密码检测: Swufe2026 -> 【通过】密码安全强度达标！\n========================================", "vscode_guide": "• 在 VSCode 中新建 <code>task4_str_clean.py</code>。<br>• 测试在学号中故意输入非 2026 开头或不足 10 位的错误数据，检验分支拦截功能。<br>• 测试纯小写密码（如 <code>swufe2026</code>），看系统能否准确指出“缺少大写字母”。", "jupyter_guide": "• 在 Jupyter 中分步打印中间结果：分别查看 <code>raw.strip()</code>、<code>parts</code> 以及各清洗后的字段。<br>• 体会字符串不可变性：所有方法调用均返回全新字符串对象，原变量内容并未被改变。", "starter_code": "# ==========================================\n# 实操题 4：学籍数据清洗与密码强度校验\n# ==========================================\nraw_record = input(\"请输入原始学籍记录: \")\n\n# 任务 1：请完成字符串清洗、学号校验与规范化\n\n\n# 任务 2：请完成密码强度循环检测\npwd = input(\"请输入初始密码: \")\n", "solution_code": "# ==========================================\n# 参考解答：实操题 4\n# ==========================================\nraw_record = input(\"请输入原始学籍记录: \")\n\n# 1. 拆分字段并去除多余空白\nparts = raw_record.strip().split(\",\")\nif len(parts) != 3:\n    print(\"【错误】数据格式不符，应为'学号,姓名,学院'形式！\")\n    exit()\n\nsno = parts[0].strip()\nname = parts[1].strip()\ncollege = parts[2].strip()\n\n# 2. 学号合规性校验\nis_sno_valid = (len(sno) == 10 and sno.isdigit() and sno.startswith(\"2026\"))\nsno_status = \"【校验通过: 2026级本科学籍】\" if is_sno_valid else \"【警告: 学号格式不合规】\"\n\n# 3. 密码安全强度校验\npwd = input(\"请输入初始密码: \")\nhas_upper = False\nhas_digit = False\n\nfor ch in pwd:\n    if ch.isupper():\n        has_upper = True\n    elif ch.isdigit():\n        has_digit = True\n\npwd_errors = []\nif len(pwd) < 8:\n    pwd_errors.append(\"长度不足8位\")\nif not has_upper:\n    pwd_errors.append(\"缺少大写字母\")\nif not has_digit:\n    pwd_errors.append(\"缺少数字\")\n\n# 4. 汇总展示\nprint(\"=\" * 40)\nprint(f\"{'学籍数据清洗结果单':^30}\")\nprint(\"=\" * 40)\nprint(f\"学号: {sno} {sno_status}\")\nprint(f\"姓名: {name}\")\nprint(f\"学院: {college}\")\nprint(\"-\" * 40)\n\nif not pwd_errors:\n    print(f\"密码检测: {pwd} -> 【通过】密码安全强度达标！\")\nelse:\n    print(f\"密码检测: {pwd} -> 【未通过】{'、'.join(pwd_errors)}\")\nprint(\"=\" * 40)", "analysis": "1. <strong>字符串方法链组合：</strong><code>raw_record.strip().split(',')</code> 高效地剔除了整行两端的空白及换行符。<br>2. <strong>布尔表达式综合校验：</strong><code>(len(sno) == 10 and sno.isdigit() and sno.startswith(\"2026\"))</code> 一气呵成，清晰严谨。<br>3. <strong>字符属性遍历检测：</strong>使用 <code>for ch in pwd:</code> 结合 <code>ch.isupper()</code> 与 <code>ch.isdigit()</code>，是实现密码合规性检查的标准范式。"}, {"id": 5, "title": "实操题 5：金融复利增长整齐排版报表生成器", "tags": ["字符串乘法", "对齐排版", "中文表格", "循环制表"], "difficulty": "进阶", "scenario": "对应 Week 2 课件末尾的课后练习题：为西南财经大学财富管理中心生成一张标准化、对齐严谨的长期复利投资报表，供高净值客户直观对比资产增长轨迹。", "requirements": ["提示用户输入初始投资本金（元）和预期年化收益率（例如输入 <code>0.05</code> 表示 5%）。", "<strong>报表年份：</strong>按顺序展示第 1 年到第 10 年，以及跨越期的第 20 年、第 30 年的本息增长情况。", "<strong>表格边框要求：</strong>使用字符串乘法 <code>\"+\" + \"-\" * 8 + ...</code> 拼接外边框与列分隔线。", "<strong>全中文化表头与对齐规范：</strong><br>• 第 1 列【年份】：居中对齐，宽度 8<br>• 第 2 列【当年产生利息】：右对齐，宽度 18，保留 2 位小数并带千分位<br>• 第 3 列【期末累计资产】：右对齐，宽度 18，保留 2 位小数并带千分位", "在终端等宽字体（Monospace）下展现完美对齐的字符画报表。"], "input_sample": "请输入初始投资本金（元）: 10000\n请输入预期年化收益率 (例如 0.05 表示 5%): 0.05", "output_sample": "+--------+------------------+------------------+\n|  年份  |   当年产生利息   |   期末累计资产   |\n+--------+------------------+------------------+\n|   1    |          500.00  |       10,500.00  |\n|   2    |          525.00  |       11,025.00  |\n|   3    |          551.25  |       11,576.25  |\n|  ...   |             ...  |             ...  |\n|   10   |          775.66  |       16,288.95  |\n|   20   |        1,263.48  |       26,532.98  |\n|   30   |        2,058.07  |       43,219.42  |\n+--------+------------------+------------------+", "vscode_guide": "• 在 VSCode 中新建 <code>task5_table.py</code>。<br>• 运行终端，全屏观察边框竖线 <code>|</code> 是否在各行保持严格垂直对齐。<br>• 重点关注中文字符在终端等宽字体下的宽度占位特性。", "jupyter_guide": "• 在 Jupyter Lab 中执行单元格，输出区域默认即采用等宽字体，能非常直观清晰地呈现排版效果。<br>• 尝试修改投资年份列表 <code>years = list(range(1, 11)) + [20, 30]</code> 进行拓展自测。", "starter_code": "# ==========================================\n# 实操题 5：金融复利资产增长报表生成器\n# ==========================================\nprincipal = float(input(\"请输入初始投资本金（元）: \"))\nannual_rate = float(input(\"请输入预期年化收益率 (例如 0.05 表示 5%): \"))\n\n# 待统计年份序列：1至10年，以及20、30年\nyears_list = list(range(1, 11)) + [20, 30]\n\n# 请使用字符串乘法与 f-string 格式说明符构建纯中文整齐报表\n", "solution_code": "# ==========================================\n# 参考解答：实操题 5\n# ==========================================\ntry:\n    principal = float(input(\"请输入初始投资本金（元）: \"))\n    annual_rate = float(input(\"请输入预期年化收益率 (例如 0.05 表示 5%): \"))\nexcept ValueError:\n    print(\"【错误】请输入有效数字！\")\n    exit()\n\n# 待统计年份序列：1至10年，外加20、30年\nyears_list = list(range(1, 11)) + [20, 30]\n\n# 定义表格列宽\ncol1_w, col2_w, col3_w = 8, 18, 18\n\n# 边框线生成\nsep_line = f\"+{'-' * col1_w}+{'-' * col2_w}+{'-' * col3_w}+\"\n\nprint(\"\\n\" + sep_line)\n# 表头（汉字在终端占两个英文字符宽度，通过空格手工平衡对齐）\nheader1 = \"  年份  \"          # 2汉字(4宽) + 4空格 = 8宽\nheader2 = \"   当年产生利息   \"  # 6汉字(12宽) + 6空格 = 18宽\nheader3 = \"   期末累计资产   \"  # 6汉字(12宽) + 6空格 = 18宽\nprint(f\"|{header1}|{header2}|{header3}|\")\nprint(sep_line)\n\n# 循环计算并按行打印\nfor yr in years_list:\n    # 当年期末总额\n    balance = principal * ((1 + annual_rate) ** yr)\n    # 当年产生的利息 = 本年期末 - 上年期末\n    prev_balance = principal * ((1 + annual_rate) ** (yr - 1))\n    interest_this_year = balance - prev_balance\n    \n    print(f\"|{yr:^8d}|{interest_this_year:>16,.2f}  |{balance:>16,.2f}  |\")\n\nprint(sep_line)\nprint(f\"注: 初始本金 {principal:,.2f} 元，预期年化利率 {annual_rate * 100:.2f}%\")", "analysis": "1. <strong>中文字符宽度平衡：</strong>终端等宽字体下，一个汉字占 2 个英文字符位宽。因此 <code>\"当年产生利息\"</code>（6 个汉字）占 12 位宽，在 18 位宽的列中，左右各填充 3 个空格即可获得完美的视觉居中。<br>2. <strong>千分位与浮点数对齐：</strong><code>{interest_this_year:&gt;16,.2f}</code> 结合了宽度 16、千分位逗号与保留 2 位小数，右侧再留 2 空格即可与边框对齐。<br>3. <strong>列表生成应用：</strong><code>list(range(1, 11)) + [20, 30]</code> 直观展示了列表拼接与 <code>range()</code> 的灵活性。"}];
+
+    // 作答状态记录
+    const userAnswers = {}; // id -> 选项索引 (0..3)
+    let currentFilter = 'all';
+    let allExplanationsExpanded = false;
+
+    // 从 localStorage 加载保存的历史
+    function loadSavedState() {
+      try {
+        const saved = localStorage.getItem('swufe_python_week2_answers_cn');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          Object.assign(userAnswers, parsed);
+        }
+      } catch (e) {
+        console.warn('读取本地缓存失败', e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem('swufe_python_week2_answers_cn', JSON.stringify(userAnswers));
+      } catch (e) {
+        console.warn('写入本地缓存失败', e);
+      }
+    }
+
+    // 渲染单项选择题
+    function renderQuestions() {
+      const container = document.getElementById('choice-questions-section');
+      container.innerHTML = '';
+
+      const wrongCount = Object.keys(userAnswers).filter(id => {
+        const q = questions.find(item => item.id == id);
+        return q && userAnswers[id] !== q.answer;
+      }).length;
+      document.getElementById('wrong-filter-count').innerText = wrongCount;
+
+      questions.forEach((q) => {
+        const isAnswered = userAnswers.hasOwnProperty(q.id);
+        const selectedIdx = userAnswers[q.id];
+        const isCorrect = isAnswered && selectedIdx === q.answer;
+        const isWrong = isAnswered && !isCorrect;
+
+        // 筛选逻辑判定
+        let visible = true;
+        if (currentFilter === 'coding-tasks') {
+          visible = false;
+        } else if (currentFilter === 'wrong-only') {
+          visible = isWrong;
+        } else if (currentFilter !== 'all' && q.category !== currentFilter) {
+          visible = false;
+        }
+
+        const card = document.createElement('article');
+        card.className = `question-card ${visible ? '' : 'hidden'}`;
+        card.id = `q-${q.id}`;
+        card.style.display = visible ? 'block' : 'none';
+
+        // 选项 HTML 构建
+        let optionsHtml = '';
+        const optLetters = ['A', 'B', 'C', 'D'];
+        q.options.forEach((optText, optIdx) => {
+          let btnClass = 'option-btn';
+          if (isAnswered) {
+            if (optIdx === q.answer) {
+              btnClass += isCorrect ? ' correct-choice' : ' show-correct';
+            } else if (optIdx === selectedIdx && !isCorrect) {
+              btnClass += ' wrong-choice';
+            }
+          }
+
+          optionsHtml += `
+            <button class="${btnClass}" onclick="selectOption(${q.id}, ${optIdx})">
+              <span class="option-key">${optLetters[optIdx]}</span>
+              <span class="option-text">${optText}</span>
+            </button>
+          `;
+        });
+
+        // 代码块处理
+        let codeHtml = '';
+        if (q.code && q.code.trim().length > 0) {
+          codeHtml = `
+            <div class="code-box">
+              <span class="code-lang">Python 代码</span>
+              <pre><code>${escapeHtml(q.code)}</code></pre>
+            </div>
+          `;
+        }
+
+        // 状态徽章
+        let statusBadge = '';
+        if (isAnswered) {
+          statusBadge = isCorrect 
+            ? '<span style="color: var(--success); font-weight: 600;">✓ 回答正确</span>' 
+            : '<span style="color: var(--danger); font-weight: 600;">✗ 回答错误</span>';
+        }
+
+        card.innerHTML = `
+          <div class="q-meta">
+            <div class="q-badges">
+              <span class="badge badge-num">题号 ${q.id}</span>
+              <span class="badge badge-category">${q.category}</span>
+              <span class="badge badge-diff-${q.difficulty}">${q.difficulty}</span>
+            </div>
+            <div class="q-status">${statusBadge}</div>
+          </div>
+          <h3 class="q-title">${q.title}</h3>
+          <div class="q-text">${q.question}</div>
+          ${codeHtml}
+          <div class="options-list">
+            ${optionsHtml}
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <button class="exp-toggle-btn" onclick="toggleExplanation(${q.id})">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span id="exp-btn-text-${q.id}">查看考点与解析</span>
+            </button>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">${isAnswered ? '已作答' : '未作答'}</span>
+          </div>
+          <div class="explanation-box" id="exp-${q.id}">
+            ${q.explanation}
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      renderSidebarBubbles();
+      updateStats();
+    }
+
+    // 渲染实操编程任务
+    function renderProgrammingTasks() {
+      const container = document.getElementById('tasks-container');
+      container.innerHTML = '';
+
+      programmingTasks.forEach(task => {
+        const card = document.createElement('article');
+        card.className = 'task-card';
+        card.id = `task-${task.id}`;
+
+        let tagsHtml = task.tags.map(t => `<span class="badge badge-category" style="background:#e0f2fe; color:#0369a1;">${t}</span>`).join(' ');
+        let reqItems = task.requirements.map(r => `<li>${r}</li>`).join('');
+
+        card.innerHTML = `
+          <div class="task-meta">
+            <span class="badge badge-num" style="background: #eef2ff; color: #4338ca;">实操编程任务 ${task.id}</span>
+            <span class="badge badge-diff-${task.difficulty}">${task.difficulty}</span>
+            ${tagsHtml}
+          </div>
+          <h3 class="task-title">${task.title}</h3>
+          
+          <div class="task-scenario">
+            <strong>业务与算法情境：</strong><br>
+            ${task.scenario}
+          </div>
+
+          <div class="task-req-title">任务规范要求：</div>
+          <ul class="task-req-list">
+            ${reqItems}
+          </ul>
+
+          <div class="io-preview-grid">
+            <div>
+              <div class="io-lbl">输入交互示例</div>
+              <div class="io-box">${escapeHtml(task.input_sample)}</div>
+            </div>
+            <div>
+              <div class="io-lbl">预期终端输出</div>
+              <div class="io-box">${escapeHtml(task.output_sample)}</div>
+            </div>
+          </div>
+
+          <div style="background: #f1f5f9; padding: 12px 16px; border-radius: 8px; font-size: 0.88rem; color: #475569; margin-bottom: 16px;">
+            <strong>实操要点提示：</strong><br>
+            ${task.vscode_guide}<br>
+            ${task.jupyter_guide}
+          </div>
+
+          <div class="task-actions">
+            <button class="btn btn-secondary" onclick="copyStarterCode(${task.id})">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              复制代码模板至剪贴板
+            </button>
+            <button class="btn btn-primary" onclick="toggleTaskSolution(${task.id})">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              <span id="sol-btn-text-${task.id}">查看参考解答与代码解析</span>
+            </button>
+          </div>
+
+          <div class="solution-panel" id="task-sol-${task.id}">
+            <h4 style="color: var(--primary-dark); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              规范参考实现（可在 VSCode / Jupyter Lab 中直接执行）
+            </h4>
+            <div class="code-box" style="margin-bottom: 14px;">
+              <span class="code-lang">Python 参考解答</span>
+              <pre><code>${escapeHtml(task.solution_code)}</code></pre>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px; font-size: 0.9rem; color: #334155;">
+              <strong style="color: var(--primary);">核心思路解析与易错点剖析：</strong><br>
+              ${task.analysis}
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    // 渲染答题卡气泡网格
+    function renderSidebarBubbles() {
+      const grid = document.getElementById('nav-bubbles-grid');
+      grid.innerHTML = '';
+
+      questions.forEach((q) => {
+        const bubble = document.createElement('a');
+        bubble.className = 'nav-bubble';
+        bubble.href = `#q-${q.id}`;
+        bubble.innerText = q.id;
+
+        if (userAnswers.hasOwnProperty(q.id)) {
+          if (userAnswers[q.id] === q.answer) {
+            bubble.classList.add('correct');
+          } else {
+            bubble.classList.add('wrong');
+          }
+        }
+
+        bubble.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.getElementById(`q-${q.id}`);
+          if (target) {
+            target.style.display = 'block';
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.45)';
+            setTimeout(() => target.style.boxShadow = '', 1200);
+          }
+        });
+
+        grid.appendChild(bubble);
+      });
+    }
+
+    // 选择选项并即时判定
+    function selectOption(questionId, optionIdx) {
+      userAnswers[questionId] = optionIdx;
+      saveState();
+
+      // 作答后自动展开本题解析
+      const expBox = document.getElementById(`exp-${questionId}`);
+      if (expBox) expBox.classList.add('active');
+
+      renderQuestions();
+    }
+
+    // 展开/收起单个题目解析
+    function toggleExplanation(qid) {
+      const expBox = document.getElementById(`exp-${qid}`);
+      const btnText = document.getElementById(`exp-btn-text-${qid}`);
+      if (expBox.classList.contains('active')) {
+        expBox.classList.remove('active');
+        btnText.innerText = '查看考点与解析';
+      } else {
+        expBox.classList.add('active');
+        btnText.innerText = '收起考点与解析';
+      }
+    }
+
+    // 全部展开/收起所有解析
+    function toggleAllExplanations() {
+      allExplanationsExpanded = !allExplanationsExpanded;
+      questions.forEach(q => {
+        const expBox = document.getElementById(`exp-${q.id}`);
+        const btnText = document.getElementById(`exp-btn-text-${q.id}`);
+        if (expBox && btnText) {
+          if (allExplanationsExpanded) {
+            expBox.classList.add('active');
+            btnText.innerText = '收起考点与解析';
+          } else {
+            expBox.classList.remove('active');
+            btnText.innerText = '查看考点与解析';
+          }
+        }
+      });
+      document.getElementById('toggle-all-exp-text').innerText = allExplanationsExpanded ? '收起全部解析' : '全部展开解析';
+    }
+
+    // 展开/收起实操题解答
+    function toggleTaskSolution(taskId) {
+      const panel = document.getElementById(`task-sol-${taskId}`);
+      const btnText = document.getElementById(`sol-btn-text-${taskId}`);
+      if (panel.classList.contains('active')) {
+        panel.classList.remove('active');
+        btnText.innerText = '查看参考解答与代码解析';
+      } else {
+        panel.classList.add('active');
+        btnText.innerText = '收起参考解答';
+      }
+    }
+
+    // 复制模板代码
+    function copyStarterCode(taskId) {
+      const task = programmingTasks.find(t => t.id === taskId);
+      if (!task) return;
+      navigator.clipboard.writeText(task.starter_code).then(() => {
+        showToast(`已复制实操题 ${taskId} 模板代码！可粘贴至 VSCode / Jupyter Lab 实操`);
+      }).catch(() => {
+        showToast('复制失败，请手动选取复制代码');
+      });
+    }
+
+    // 弹出提示条
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-text').innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // 刷新看板统计数据
+    function updateStats() {
+      const total = questions.length;
+      const answeredKeys = Object.keys(userAnswers);
+      const answeredCount = answeredKeys.length;
+
+      let correctCount = 0;
+      answeredKeys.forEach(id => {
+        const q = questions.find(item => item.id == id);
+        if (q && userAnswers[id] === q.answer) {
+          correctCount++;
+        }
+      });
+
+      const wrongCount = answeredCount - correctCount;
+      const accuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+      const progressPercent = Math.round((answeredCount / total) * 100);
+
+      document.getElementById('stat-total').innerText = total;
+      document.getElementById('stat-answered').innerText = answeredCount;
+      document.getElementById('stat-correct').innerText = correctCount;
+      document.getElementById('stat-wrong').innerText = wrongCount;
+      document.getElementById('stat-accuracy').innerText = accuracy + '%';
+      document.getElementById('progress-percent-text').innerText = progressPercent + '%';
+      document.getElementById('progress-fill').style.width = progressPercent + '%';
+      document.getElementById('sidebar-progress-label').innerText = `${answeredCount}/${total}`;
+    }
+
+    // 筛选标签点击事件绑定
+    document.querySelectorAll('.filter-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        currentFilter = pill.dataset.filter;
+
+        if (currentFilter === 'coding-tasks') {
+          document.getElementById('choice-questions-section').style.display = 'none';
+          document.getElementById('programming-section').scrollIntoView({ behavior: 'smooth' });
+        } else {
+          document.getElementById('choice-questions-section').style.display = 'flex';
+          renderQuestions();
+        }
+      });
+    });
+
+    // 清空与重置作答记录
+    function resetAllAnswers() {
+      if (confirm('确认要清空所有已选答案并重置自测进度吗？此操作不可逆。')) {
+        for (let key in userAnswers) delete userAnswers[key];
+        localStorage.removeItem('swufe_python_week2_answers_cn');
+        renderQuestions();
+        showToast('已重置所有题目答案！');
+      }
+    }
+
+    // 切换至只看错题模式
+    function filterByMistakes() {
+      const pills = document.querySelectorAll('.filter-pill');
+      pills.forEach(p => {
+        if (p.dataset.filter === 'wrong-only') {
+          p.click();
+        }
+      });
+    }
+
+    // 测评诊断报告弹窗控制
+    function openExamModal() {
+      const total = questions.length;
+      const answeredKeys = Object.keys(userAnswers);
+      const answeredCount = answeredKeys.length;
+
+      let correctCount = 0;
+      const categoryStats = {};
+
+      questions.forEach(q => {
+        if (!categoryStats[q.category]) {
+          categoryStats[q.category] = { total: 0, correct: 0 };
+        }
+        categoryStats[q.category].total++;
+        if (userAnswers[q.id] === q.answer) {
+          correctCount++;
+          categoryStats[q.category].correct++;
+        }
+      });
+
+      // 换算百分制得分
+      const score = Math.round((correctCount / total) * 100);
+      document.getElementById('modal-score').innerText = score;
+      document.getElementById('modal-subtitle').innerText = `已作答 ${answeredCount} / ${total} 题，答对 ${correctCount} 题`;
+
+      let evalTitle = '卓越！Python 基础非常扎实！';
+      if (score < 60) evalTitle = '还需努力！建议重温课件与基本概念';
+      else if (score < 80) evalTitle = '良好！个别细节与易错点仍需强化';
+      else if (score < 90) evalTitle = '优秀！已熟练掌握绝大多数核心考点';
+      document.getElementById('modal-evaluation').innerText = evalTitle;
+
+      // 渲染各模块得分率柱状图
+      let breakdownHtml = '';
+      for (const [cat, data] of Object.entries(categoryStats)) {
+        const catPercent = Math.round((data.correct / data.total) * 100);
+        breakdownHtml += `
+          <div class="cat-bar-item">
+            <div class="cat-bar-label">
+              <span>${cat}</span>
+              <span>${data.correct}/${data.total} (${catPercent}%)</span>
+            </div>
+            <div class="cat-bar-track">
+              <div class="cat-bar-fill" style="width: ${catPercent}%;"></div>
+            </div>
+          </div>
+        `;
+      }
+      document.getElementById('modal-breakdown').innerHTML = breakdownHtml;
+
+      // 针对性学习建议
+      let advice = '💡 <strong>复习建议：</strong>';
+      if (answeredCount < total) {
+        advice += `您尚有 ${total - answeredCount} 道题目未完成，请继续作答以获得更全面的学情诊断。`;
+      } else if (score >= 90) {
+        advice += '恭喜！您对变量、分支、循环及字符串操作的理解非常深刻。请趁热打铁完成下方的 5 道 VSCode/Jupyter Lab 实操编程任务！';
+      } else {
+        advice += '建议特别关注错题的“考点剖析”与“干扰项分析”，搞清 input() 返回类型、整除向下取整、短路求值及 for...else 机制。';
+      }
+      document.getElementById('modal-advice').innerHTML = advice;
+
+      document.getElementById('exam-modal').classList.add('active');
+    }
+
+    function closeExamModal() {
+      document.getElementById('exam-modal').classList.remove('active');
+    }
+
+    // 辅助转义函数
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // 页面就绪后初始化
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedState();
+      renderQuestions();
+      renderProgrammingTasks();
+    });
+  </script>
+</body>
+</html>
